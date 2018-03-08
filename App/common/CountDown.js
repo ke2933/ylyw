@@ -23,8 +23,9 @@ class CountDown extends Component {
     }
 
     componentWillMount() {
-        // this.timer && BackgroundTimer.clearInterval(this.timer);
-        BackgroundTimer.stopBackgroundTimer();
+        // this.timer && BackgroundTimer.stopBackgroundTimer();
+        // this.timer && clearInterval(this.timer);
+        this.timer && BackgroundTimer.clearInterval(this.timer);// 0.14
         if (this.props.duration !== '' && this.props.beginTime !== '') {
             let beginTime = this.props.beginTime;// 开始时间
             let total = this.props.duration * 1;// 持续时间
@@ -49,7 +50,9 @@ class CountDown extends Component {
                 this.setState({
                     timerText: '00:00:00',
                 });
-                BackgroundTimer.stopBackgroundTimer();
+                // this.timer && BackgroundTimer.stopBackgroundTimer();
+                // this.timer && clearInterval(this.timer);
+                this.timer && BackgroundTimer.clearInterval(this.timer);// 0.14
             } else {
                 let surplus = Number(total) - Number(newTime) + Number(oldTime);
                 surplus = parseInt(surplus / 1000);
@@ -65,7 +68,9 @@ class CountDown extends Component {
     }
 
     componentWillUnmount() {
-        BackgroundTimer.stopBackgroundTimer();
+        // this.timer && BackgroundTimer.stopBackgroundTimer();
+        // this.timer && clearInterval(this.timer);
+        this.timer && BackgroundTimer.clearInterval(this.timer);// 0.14
     }
 
 
@@ -94,8 +99,9 @@ class CountDown extends Component {
             this.setState({
                 timerText: '00:00:00',
             });
-            // this.timer && BackgroundTimer.clearInterval(this.timer);
-            BackgroundTimer.stopBackgroundTimer();
+            // this.timer && BackgroundTimer.stopBackgroundTimer();
+            // this.timer && clearInterval(this.timer);
+            this.timer && BackgroundTimer.clearInterval(this.timer);// 0.14
         } else {
             this.setState({
                 surplus: timer,
@@ -106,7 +112,9 @@ class CountDown extends Component {
 
     //开启定时器
     _startTimer() {
-        BackgroundTimer.runBackgroundTimer(() => {
+        // this.timer = BackgroundTimer.runBackgroundTimer(() => {
+        // this.timer = setInterval(() => {
+        this.timer = BackgroundTimer.setInterval(() => {
             this._timeOperation();
         }, 1000);
     }

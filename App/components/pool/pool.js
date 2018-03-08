@@ -77,6 +77,7 @@ export default class pool extends Component {
     }
 
     componentWillMount() {
+        NetWork ? null : Alert.alert('网络似乎断掉了'), this.setState({isLoading: false});
         RouteName.push(this.props.navigation.state);
         if (Android) {
             BackHandler.addEventListener('hardwareBackPress', () => {
@@ -106,7 +107,8 @@ export default class pool extends Component {
                     });
                     this.selectCountry();
                     this.findDepartmentData(responseData.cityId);
-                    this.queryMedicalPool();
+                    // this.queryMedicalPool();
+                    this.firstScreenData(responseData.cityId, null, null);
                 })
                 .catch(
                     (error) => {
@@ -197,7 +199,9 @@ export default class pool extends Component {
                                 keyExtractor={item => item.id}
                                 renderItem={({item}) => this.renderItem(item)}
                                 onRefresh={() => {
-                                    this.state.selectFlag ? this.firstScreenData(this.state.areaActiveId, this.state.hospitalActiveId, this.state.feeActiveId) : this.queryMedicalPool();
+                                    this.firstScreenData(this.state.areaActiveId, this.state.hospitalActiveId, this.state.feeActiveId);
+                                    // this.state.selectFlag ? this.firstScreenData(this.state.areaActiveId, this.state.hospitalActiveId, this.state.feeActiveId) : this.queryMedicalPool();
+
                                 }}
                                 ItemSeparatorComponent={() => {
                                     return (
@@ -605,40 +609,40 @@ export default class pool extends Component {
     }
 
     // 首次加载接口
-    queryMedicalPool() {
-        let formData = new FormData();
-        formData.append("cityId", UserInfo.cityId);
-        formData.append("fee", UserInfo.fee);
-        console.log(formData);
-        fetch(requestUrl.queryMedicalPool, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
-            body: formData,
-        })
-            .then((response) => response.json())
-            .then((responseData) => {
-                setTimeout(() => {
-                    this.setState({isLoading: false,});
-                }, 500);
-                this.setState({
-                    medicalPoolBeanList: [],
-                });
-                console.log(responseData);
-                if (responseData.status === '0') {
-                    this.setState({
-                        medicalPoolBeanList: responseData.medicalPoolBeanList,
-                    })
-                }
-
-            })
-            .catch(
-                (error) => {
-                    this.setState({isLoading: false,});
-                    console.log('error', error);
-                });
-    }
+    // queryMedicalPool() {
+    //     let formData = new FormData();
+    //     formData.append("cityId", UserInfo.cityId);
+    //     formData.append("fee", UserInfo.fee);
+    //     console.log(formData);
+    //     fetch(requestUrl.queryMedicalPool, {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'multipart/form-data',
+    //         },
+    //         body: formData,
+    //     })
+    //         .then((response) => response.json())
+    //         .then((responseData) => {
+    //             setTimeout(() => {
+    //                 this.setState({isLoading: false,});
+    //             }, 500);
+    //             this.setState({
+    //                 medicalPoolBeanList: [],
+    //             });
+    //             console.log(responseData);
+    //             if (responseData.status === '0') {
+    //                 this.setState({
+    //                     medicalPoolBeanList: responseData.medicalPoolBeanList,
+    //                 })
+    //             }
+    //
+    //         })
+    //         .catch(
+    //             (error) => {
+    //                 this.setState({isLoading: false,});
+    //                 console.log('error', error);
+    //             });
+    // }
 
 // 筛选接口
     firstScreenData(cityId, hospitalId, feeId) {

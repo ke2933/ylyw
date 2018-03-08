@@ -74,7 +74,7 @@ export default class editSuccess extends Component {
                                 OrderType = '首诊订单';
                                 Status = '待接收';
                                 RouteName.splice(0, RouteName.length);
-                                // RouteName.push(this.props.navigation.state);
+                                NetWork ? null : Alert.alert('网络似乎断掉了'), this.setState({isLoading: false});
                                 navigate('TabOrderPage');
                             }}
                             activeOpacity={.8}

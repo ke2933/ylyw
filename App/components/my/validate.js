@@ -48,7 +48,14 @@ export default class validate extends Component {
     }
 
     componentWillMount() {
-        RouteName.push(this.props.navigation.state);        if (Android) {            BackHandler.addEventListener('hardwareBackPress', () => {                backAndroid();                return true;            });        }
+        NetWork ? null : Alert.alert('网络似乎断掉了'), this.setState({isLoading: false});
+        RouteName.push(this.props.navigation.state);
+        if (Android) {
+            BackHandler.addEventListener('hardwareBackPress', () => {
+                backAndroid();
+                return true;
+            });
+        }
     }
 
     componentDidMount() {
@@ -342,7 +349,11 @@ export default class validate extends Component {
                             this.props.navigation.navigate('ResetPayPass');
                         }, 1000)
                     } else if (responseData.status === '1') {
+                        this.setState({isLoading: false,});
                         this.refs.toast.show('请核对验证码');
+                    } else {
+                        this.setState({isLoading: false,});
+                        this.refs.toast.show('认证信息不正确');
                     }
                 })
                 .catch(

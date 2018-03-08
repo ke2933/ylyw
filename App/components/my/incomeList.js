@@ -28,6 +28,7 @@ export default class IncomeList extends Component {
     }
 
     componentWillMount() {
+        NetWork ? null : Alert.alert('网络似乎断掉了'), this.setState({isLoading: false});
         RouteName.push(this.props.navigation.state);
         if (Android) {
             BackHandler.addEventListener('hardwareBackPress', () => {

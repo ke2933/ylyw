@@ -62,7 +62,7 @@ export default class orderInfo extends Component {
     }
 
     componentWillMount() {
-        RouteName.push(this.props.navigation.state);
+       NetWork ? null : Alert.alert('网络似乎断掉了'), this.setState({isLoading: false});RouteName.push(this.props.navigation.state);
         if (Android) {
             BackHandler.addEventListener('hardwareBackPress', () => {
                 backAndroid();

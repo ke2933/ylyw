@@ -48,7 +48,7 @@ export default class SmsLogin extends Component {
     }
 
     componentWillMount() {
-        RouteName.push(this.props.navigation.state);
+
         if (Android) {
             BackHandler.addEventListener('hardwareBackPress', () => {
                 backAndroid();

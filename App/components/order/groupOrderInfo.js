@@ -60,7 +60,8 @@ export default class GroupOrderInfo extends Component {
     }
 
     componentWillMount() {
-        RouteName.push(this.props.navigation.state);
+       NetWork ? null : Alert.alert('网络似乎断掉了'), this.setState({isLoading: false});
+       RouteName.push(this.props.navigation.state);
         if (Android) {
             BackHandler.addEventListener('hardwareBackPress', () => {
                 backAndroid();
@@ -149,10 +150,6 @@ export default class GroupOrderInfo extends Component {
                 />
                 <Nav navigation={this.props.navigation}
                      leftClick={() => {
-                         DeviceEventEmitter.emit("OrderRefresh",{
-                             orderType: '会诊订单',
-                             status: "正在会诊",
-                         });
                          RouteName.pop();
                          goBack();
                      }}

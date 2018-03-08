@@ -34,7 +34,7 @@ export default class editSuccess extends Component {
 
     componentWillMount() {
         RouteName.splice(0, RouteName.length);
-        RouteName.push(this.props.navigation.state);
+       NetWork ? null : Alert.alert('网络似乎断掉了'), this.setState({isLoading: false});RouteName.push(this.props.navigation.state);
         if (Android) {
             BackHandler.addEventListener('hardwareBackPress', () => {
                 backAndroid();
@@ -78,7 +78,7 @@ export default class editSuccess extends Component {
                                 OrderType = '会诊订单';
                                 Status = '正在会诊';
                                 RouteName.splice(0, RouteName.length);
-                                // RouteName.push(this.props.navigation.state);
+                                NetWork ? null : Alert.alert('网络似乎断掉了'), this.setState({isLoading: false});
                                 navigate('TabOrderPage');
                             }}
                             activeOpacity={.8}
@@ -92,7 +92,7 @@ export default class editSuccess extends Component {
                                 OrderType = '会诊订单';
                                 Status = '全部';
                                 RouteName.splice(0, RouteName.length);
-                                // RouteName.push(this.props.navigation.state);
+                                NetWork ? null : Alert.alert('网络似乎断掉了'), this.setState({isLoading: false});
                                 navigate('TabOrderPage');
                             }}
                             activeOpacity={.8}

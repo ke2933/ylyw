@@ -36,7 +36,8 @@ export default class selectHospital extends Component {
     }
 
     componentWillMount() {
-        // RouteName.push(this.props.navigation.state);
+        NetWork ? null : Alert.alert('网络似乎断掉了'), this.setState({isLoading: false});
+        //RouteName.push(this.props.navigation.state);
         if (Android) {
             BackHandler.addEventListener('hardwareBackPress', () => {
                 backAndroid();
@@ -52,7 +53,6 @@ export default class selectHospital extends Component {
             Status = '';
         }
         DeviceEventEmitter.addListener('OrderRefresh', (data) => {
-            console.log("jfasldfj")
             this.setState({
                 orderType: data.orderType,
                 status: data.status,
@@ -361,7 +361,6 @@ export default class selectHospital extends Component {
             .then((response) => response.json())
             .then((responseData) => {
                 this.setState({isLoading: false, lists: []});
-                console.log(responseData);
                 if (responseData.status === '10') {
                     RouteName.splice(0, RouteName.length);
                     this.props.navigation.navigate('Login');

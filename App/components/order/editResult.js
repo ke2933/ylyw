@@ -51,6 +51,7 @@ export default class EditResult extends Component {
     }
 
     componentWillMount() {
+        NetWork ? null : Alert.alert('网络似乎断掉了'), this.setState({isLoading: false});
         RouteName.push(this.props.navigation.state);
         if (Android) {
             BackHandler.addEventListener('hardwareBackPress', () => {
@@ -227,7 +228,7 @@ export default class EditResult extends Component {
                                 onChangeText={(text) => this.setState({result: text})}
                                 onContentSizeChange={this.onContentSizeChange.bind(this)}
                                 underlineColorAndroid={'transparent'}
-                                onBlur={this.onContentSizeChangeReg.bind(this)}
+                                // onBlur={this.onContentSizeChangeReg.bind(this)}
                                 defaultValue={this.state.conclusionContext}
                                 onFocus={() => {
                                     this.refs._scroll.scrollTo({
@@ -365,12 +366,12 @@ export default class EditResult extends Component {
         })
     }
 
-    onContentSizeChangeReg() {
-        if (this.state.result === '') {
-            this.refs.toast.show('请输入您的会诊意见');
-            return;
-        }
-    }
+    // onContentSizeChangeReg() {
+    //     if (this.state.result === '') {
+    //         this.refs.toast.show('请输入您的会诊意见');
+    //         return;
+    //     }
+    // }
 
     confirm() {
         Alert.alert('', '您是否希望将病历存放至病例库，供其他医生学习分享', [
@@ -474,31 +475,36 @@ export default class EditResult extends Component {
     }
 
     submit(saveType) {
-        if (this.state.result !== '' || this.state.videoUrl !== '' && this.state.videoUrl !== requestUrl.ImgIp) {
-            if (this.state.conclusionContext === this.state.result && this.state.videoUrl === this.state.conclusionVideo) {
-                this.refs.toast.show('您的会诊意见未做出修改');
-                return;
-            } else {
-                if (saveType === '0') {
-                    this.editResult(saveType);
+        if (saveType === '0') {
+            // 存草稿
+            if (this.state.result !== '' || this.state.videoUrl !== '' && this.state.videoUrl !== requestUrl.ImgIp) {
+                if (this.state.conclusionContext === this.state.result && this.state.videoUrl === this.state.conclusionVideo) {
+                    this.refs.toast.show('您的会诊意见未做出修改');
+                    return;
                 } else {
-                    if (this.state.result === '') {
-                        this.refs.toast.show('请填写您的会诊意见');
-                        return;
-                    } else {
-                        Alert.alert('', '是否确认提交', [
-                            {
-                                text: '取消', onPress: () => {
-                                }
-                            },
-                            {text: '确认', onPress: this.confirm.bind(this)},
-                        ])
-                    }
+                    this.editResult(saveType);
                 }
+            } else {
+                this.refs.toast.show('请编辑会诊意见或语音');
             }
         } else {
-            this.refs.toast.show('请编辑文字或语音');
+            // 提交
+            if (this.state.result === '') {
+                this.refs.toast.show('请编辑会诊意见');
+            } else if (this.state.videoUrl === '' || this.state.videoUrl === requestUrl.ImgIp) {
+                this.refs.toast.show('请编辑语音');
+            } else {
+                Alert.alert('', '是否确认提交', [
+                    {
+                        text: '取消', onPress: () => {
+                        }
+                    },
+                    {text: '确认', onPress: this.confirm.bind(this)},
+                ])
+            }
         }
+
+
     }
 }
 

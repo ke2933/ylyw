@@ -29,20 +29,15 @@ export default class manage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isLoading: true,
+            isLoading: false,
             loadingText: '加载中...',
             passFlag: false,
-            accountWeChat: false,
-            accountALi: false,
-            weChatId: '',
-            aLiId: '',
-            accountNumber: "",//18801370533
-            accountType: "",//支付宝
+            bankFlag: false,
         }
     }
 
     componentWillMount() {
-        RouteName.push(this.props.navigation.state);
+       NetWork ? null : Alert.alert('网络似乎断掉了'), this.setState({isLoading: false});RouteName.push(this.props.navigation.state);
         if (Android) {
             BackHandler.addEventListener('hardwareBackPress', () => {
                 backAndroid();
@@ -61,7 +56,7 @@ export default class manage extends Component {
     }
 
     componentDidMount() {
-        fetch(requestUrl.getAccount)
+        fetch(requestUrl.findBankCard)
             .then((response) => response.json())
             .then((responseData) => {
                 console.log(responseData);
@@ -69,25 +64,12 @@ export default class manage extends Component {
                 if (responseData.status === '10') {
                     this.props.navigation.navigate('Login');
                 } else if (responseData.status === '0') {
-                    let temp = responseData.purseAccountList;
-                    temp.map((item, index) => {
-                        if (item.accountType === '支付宝') {
-                            this.setState({
-                                accountALi: true,
-                                aLiId: item.accountNumber,
-                            })
-                        } else if (item.accountType === '微信') {
-                            this.setState({
-                                accountWeChat: true,
-                                weChatId: item.accountNumber,
-                            })
-                        }
-                    });
-
-                } else {
                     this.setState({
-                        accountWeChat: false,
-                        accountALi: false,
+                        bankFlag: true,
+                    })
+                } else if(responseData.status === '1'){
+                    this.setState({
+                        bankFlag: false,
                     })
                 }
             })
@@ -124,7 +106,53 @@ export default class manage extends Component {
                      }}
                 />
                 <ScrollView style={{flex: 1}}>
+                    {/*绑定银行卡*/}
+                    <View style={{marginTop: px2dp(10)}}>
+                        {this.state.bankFlag ?
+                            <TouchableOpacity
+                                onPress={() => {
+                                    navigate('Unbind',{
+                                        'callback': ()=>{
+                                            this.setState({
+                                                bankFlag: false,
+                                            })
+                                        }
+                                    })
 
+                                }}
+                                activeOpacity={.8}
+                            >
+                                <View style={styles.itemContent}>
+                                    <Image style={styles.itemImg} source={require('../../images/enable.png')}/>
+                                    <View style={styles.itemBox}>
+                                        <Text style={styles.itemText}>银行卡管理</Text>
+                                        <Image source={require('../../images/arrow_gray_right.png')}/>
+                                    </View>
+                                </View>
+                            </TouchableOpacity>
+                            :
+                            <TouchableOpacity
+                                onPress={() => {
+                                    navigate('TiedCard',{
+                                        'callback': () => {
+                                            this.setState({
+                                                bankFlag: true,
+                                            })
+                                        }
+                                    });
+                                }}
+                                activeOpacity={.8}
+                            >
+                                <View style={styles.itemContent}>
+                                    <Image style={styles.itemImg} source={require('../../images/enable.png')}/>
+                                    <View style={styles.itemBox}>
+                                        <Text style={styles.itemText}>绑定银行卡</Text>
+                                        <Image source={require('../../images/arrow_gray_right.png')}/>
+                                    </View>
+                                </View>
+                            </TouchableOpacity>
+                        }
+                    </View>
 
                     {this.state.passFlag ?
                         <View style={styles.itemContainer}>
@@ -183,128 +211,7 @@ export default class manage extends Component {
                             </TouchableOpacity>
                         </View>
                     }
-                    <View style={styles.accountCard}>
-                        <View style={[styles.accountCardTop, {backgroundColor: '#1aaceb',}]}>
-                            <Image source={require('../../images/alipay_false.png')}/>
-                            <Text style={styles.accountCardTitle}>支付宝账号</Text>
-                        </View>
-                        {this.state.accountALi ?
-                            <View style={styles.accountCardBottom}>
-                                <View style={styles.accountCardBox}>
-                                    <Text style={styles.accountCardText}>{this.state.aLiId}</Text>
-                                </View>
-                                < TouchableOpacity
-                                    onPress={() => {
-                                        Alert.alert('', '确认删除', [
-                                            {
-                                                text: '取消', onPress: () => {
-                                            }
-                                            },
-                                            {
-                                                text: '确认', onPress: () => {
-                                                this.removeAccount('支付宝');
-                                            }
-                                            },
-                                        ])
-                                    }}
-                                    activeOpacity={.8}
-                                >
-                                    <View style={styles.delBox}>
-                                        <Text style={styles.delText}>删除</Text>
-                                    </View>
-                                </TouchableOpacity>
-                            </View>
-                            :
-                            <View style={styles.accountCardBottom}>
-                                <TextInput
-                                    style={styles.accountCardInput}
-                                    placeholder={'请输入账号'}
-                                    placeholderTextColor={'#bdbdbd'}
-                                    onChangeText={(text) => this.setState({aLiId: text})}
-                                    underlineColorAndroid={'transparent'}
-                                >
-                                </TextInput>
-                                < TouchableOpacity
-                                    onPress={() => {
-                                        if (RegExp.Reg_email.test(this.state.aLiId)) {
-                                            this.bindAccount('支付宝', this.state.aLiId);
-                                        } else if (RegExp.Reg_TelNo.test(this.state.aLiId)) {
-                                            this.bindAccount('支付宝', this.state.aLiId);
-                                        } else {
-                                            this.refs.toast.show('请核对账号');
-                                        }
-                                    }}
-                                    activeOpacity={.8}
-                                >
-                                    <View style={styles.bindBox}>
-                                        <Text style={styles.bindText}>绑定账号</Text>
-                                    </View>
-                                </TouchableOpacity>
-                            </View>
-                        }
-                    </View>
-                    <View style={styles.accountCard}>
-                        <View style={[styles.accountCardTop, {backgroundColor: '#00af41'}]}>
-                            <Image source={require('../../images/wechat_pay_false.png')}/>
-                            <Text style={styles.accountCardTitle}>微信账号</Text>
-                        </View>
-                        {this.state.accountWeChat ?
-                            <View style={styles.accountCardBottom}>
-                                <View style={styles.accountCardBox}>
-                                    <Text style={styles.accountCardText}>{this.state.weChatId}</Text>
-                                </View>
-                                < TouchableOpacity
-                                    onPress={() => {
-                                        Alert.alert('', '确认删除', [
-                                            {
-                                                text: '取消', onPress: () => {
-                                            }
-                                            },
-                                            {
-                                                text: '确认', onPress: () => {
-                                                this.removeAccount('微信');
-                                            }
-                                            },
-                                        ])
 
-                                    }}
-                                    activeOpacity={.8}
-                                >
-                                    <View style={styles.delBox}>
-                                        <Text style={styles.delText}>删除</Text>
-                                    </View>
-                                </TouchableOpacity>
-                            </View>
-                            :
-                            <View style={styles.accountCardBottom}>
-                                <TextInput
-                                    style={styles.accountCardInput}
-                                    placeholder={'请输入账号'}
-                                    placeholderTextColor={'#bdbdbd'}
-                                    onChangeText={(text) => this.setState({weChatId: text})}
-                                    underlineColorAndroid={'transparent'}
-                                >
-                                </TextInput>
-                                < TouchableOpacity
-                                    onPress={() => {
-                                        if (RegExp.Reg_email.test(this.state.weChatId)) {
-                                            this.bindAccount('微信', this.state.weChatId);
-                                        } else if (RegExp.Reg_TelNo.test(this.state.weChatId)) {
-                                            this.bindAccount('微信', this.state.weChatId);
-                                        } else {
-                                            this.refs.toast.show('请核对账号');
-                                        }
-                                    }}
-                                    activeOpacity={.8}
-                                >
-                                    <View style={styles.bindBox}>
-                                        <Text style={styles.bindText}>绑定账号</Text>
-                                    </View>
-                                </TouchableOpacity>
-                            </View>
-                        }
-
-                    </View>
                 </ScrollView>
                 <Toast
                     ref='toast'
@@ -320,80 +227,7 @@ export default class manage extends Component {
             ;
     }
 
-    // 绑定接口
-    bindAccount(accountType, accountNumber) {
-        if (accountNumber === '') {
-            this.refs.toast.show('请输入账号');
-        } else {
-            this.setState({
-                isLoading: true,
-                loadingText: '绑定中...',
-            });
-            let formData = new FormData();
-            formData.append("accountType", accountType);
-            formData.append("accountNumber", accountNumber);
-            console.log(formData);
-            fetch(requestUrl.bindAccount, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-                body: formData,
-            })
-                .then((response) => response.json())
-                .then((responseData) => {
-                    console.log(responseData);
-                    if (responseData.status === '10') {
-                        this.props.navigation.navigate('Login');
-                    } else if (responseData.status === '0') {
-                        if (this.props.navigation.state.params) {
-                            this.setState({
-                                loadingText: '绑定成功',
-                            });
-                            setTimeout(() => {
-                                this.props.navigation.state.params.callback();
-                                RouteName.pop();
-                                this.props.navigation.goBack();
-                            }, 1000)
 
-                        } else {
-                            if (responseData.purseAccount.accountType === '微信') {
-                                this.setState({loadingText: '绑定成功'});
-                                setTimeout(() => {
-                                    this.setState({
-                                        isLoading: false,
-                                        accountWeChat: true,
-                                        weChatId: responseData.purseAccount.accountNumber,
-                                    })
-                                }, 1000);
-                            } else if (responseData.purseAccount.accountType === '支付宝') {
-                                this.setState({loadingText: '绑定成功'});
-                                setTimeout(() => {
-                                    this.setState({
-                                        isLoading: false,
-                                        accountALi: true,
-                                        aLiId: responseData.purseAccount.accountNumber,
-                                    })
-                                }, 1000);
-                            }
-                        }
-
-                    } else if (responseData.status === '1') {
-                        this.setState({isLoading: false});
-                        this.refs.toast.show('请输入要绑定的账号');
-                    } else {
-                        this.setState({isLoading: false});
-                        this.refs.toast.show('绑定失败请重试');
-                    }
-                })
-                .catch(
-                    (error) => {
-                        this.setState({isLoading: false,});
-                        console.log('error', error);
-                    });
-        }
-
-    }
 
     // 删除绑定
     removeAccount(accoundType) {

@@ -36,6 +36,7 @@ export default class Earnings extends Component {
     }
 
     componentWillMount() {
+        NetWork ? null : Alert.alert('网络似乎断掉了'), this.setState({isLoading: false});
         RouteName.push(this.props.navigation.state);
         if (Android) {
             BackHandler.addEventListener('hardwareBackPress', () => {
@@ -56,6 +57,7 @@ export default class Earnings extends Component {
         fetch(requestUrl.getPurse)
             .then((response) => response.json())
             .then((responseData) => {
+                console.log(responseData)
                 if (responseData.status === '10') {
                     this.props.navigation.navigate('Login');
                 } else if (responseData.status === '0') {
@@ -68,7 +70,6 @@ export default class Earnings extends Component {
                 } else {
 
                 }
-                console.log(responseData);
             })
             .catch(
                 (error) => {
@@ -121,18 +122,27 @@ export default class Earnings extends Component {
                     <TouchableOpacity
                         onPress={() => {
                             if (this.state.status === '0') {
-                                navigate('WithdrawCash', {data: this.state});
+                                navigate('WithdrawCash', {
+                                    data: this.state,
+                                    callback: (data) => {
+                                        console.log(data);
+                                        this.setState({
+                                            balance: (this.state.balance * 100 - data * 100) / 100
+                                        })
+                                    }
+                                });
                             } else if (this.state.status === '3') {
                                 this.refs.toast.show(this.state.statusText)
                             } else {
                                 Alert.alert('', '您还未认证，去认证?', [
                                     {
                                         text: '取消', onPress: () => {
-                                    }
+                                        }
                                     },
                                     {
                                         text: '确认', onPress: () => {
-                                        navigate('AttestationOne');}
+                                            navigate('AttestationOne');
+                                        }
                                     },
                                 ])
                             }
@@ -157,11 +167,12 @@ export default class Earnings extends Component {
                                 Alert.alert('', '您还未认证，去认证?', [
                                     {
                                         text: '取消', onPress: () => {
-                                    }
+                                        }
                                     },
                                     {
                                         text: '确认', onPress: () => {
-                                        navigate('AttestationOne');}
+                                            navigate('AttestationOne');
+                                        }
                                     },
                                 ])
                             }
@@ -187,11 +198,12 @@ export default class Earnings extends Component {
                                 Alert.alert('', '您还未认证，去认证?', [
                                     {
                                         text: '取消', onPress: () => {
-                                    }
+                                        }
                                     },
                                     {
                                         text: '确认', onPress: () => {
-                                        navigate('AttestationOne');}
+                                            navigate('AttestationOne');
+                                        }
                                     },
                                 ])
                             }

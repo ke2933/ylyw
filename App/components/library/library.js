@@ -45,7 +45,8 @@ export default class Library extends Component {
     }
 
     componentWillMount() {
-        RouteName.push(this.props.navigation.state);
+       NetWork ? null : Alert.alert('网络似乎断掉了'), this.setState({isLoading: false});
+       RouteName.push(this.props.navigation.state);
         if (Android) {
             BackHandler.addEventListener('hardwareBackPress', () => {
                 backAndroid();
@@ -70,6 +71,8 @@ export default class Library extends Component {
             })
             .catch(
                 (error) => {
+                    this.setState({isLoading: false,});
+                    this.refs.toast.show('网络似乎断掉了');
                     console.log('error', error);
                 });
         if (UserInfo.oauthStatus === '3') {
@@ -111,6 +114,8 @@ export default class Library extends Component {
                 })
                 .catch(
                     (error) => {
+                        this.setState({isLoading: false,});
+                        this.refs.toast.show('网络似乎断掉了');
                         console.log('error', error);
                     });
 
@@ -504,6 +509,7 @@ export default class Library extends Component {
             })
             .catch(
                 (error) => {
+                    this.refs.toast.show('网络似乎断掉了');
                     this.setState({isLoading: false,});
                     console.log('error', error);
                 });

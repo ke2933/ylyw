@@ -62,7 +62,7 @@ export default class CaseHistoryInfo extends Component {
     }
 
     componentWillMount() {
-        RouteName.push(this.props.navigation.state);
+       NetWork ? null : Alert.alert('网络似乎断掉了'), this.setState({isLoading: false});RouteName.push(this.props.navigation.state);
         if (Android) {
             BackHandler.addEventListener('hardwareBackPress', () => {
                 backAndroid();
@@ -277,6 +277,7 @@ export default class CaseHistoryInfo extends Component {
         })
             .then((response) => response.json())
             .then((responseData) => {
+                console.log(responseData);
                 if (responseData.status === '0') {
                     this.setState({
                         isLoading: false,
@@ -287,7 +288,6 @@ export default class CaseHistoryInfo extends Component {
                         OrderType = '会诊订单';
                         Status = '正在会诊';
                         RouteName.splice(0, RouteName.length);
-                        // RouteName.push(this.props.navigation.state);
                         this.props.navigation.navigate('TabOrderPage')
                     }, 1000)
                 } else if (responseData.status === '2') {
@@ -303,7 +303,6 @@ export default class CaseHistoryInfo extends Component {
                         OrderType = '会诊订单';
                         Status = '正在会诊';
                         RouteName.splice(0, RouteName.length);
-                        // RouteName.push(this.props.navigation.state);
                         this.props.navigation.navigate('TabOrderPage')
                     }, 1000)
                 } else if (responseData.status === '4') {

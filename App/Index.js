@@ -36,11 +36,14 @@ import MyTab from './components/my/my';//我的
     import Collection from './components/my/collection';//收藏
         import CollectionInfo from './components/my/collectionInfo';//收藏病历详情
     import Earnings from './components/my/earnings';//收益
-import PayPass from './components/my/payPass';// 支付密码
-import WithdrawCash from './components/my/withdrawCash';// 提现
-import IncomeList from './components/my/incomeList';//收益明细列表
-import IncomeDetails from './components/my/incomeDetails';// 收益详情
-import Manage from './components/my/manage';// 提现管理
+        import PayPass from './components/my/payPass';// 支付密码
+        import WithdrawCash from './components/my/withdrawCash';// 提现
+        import IncomeList from './components/my/incomeList';//收益明细列表
+        import IncomeDetails from './components/my/incomeDetails';// 收益详情
+        import Manage from './components/my/manage';// 提现管理
+            import TiedCard from './components/my/tiedCard';// 绑定银行卡
+            import Unbind from './components/my/unbind';// 解绑银行卡
+
 import CheckPayPass from './components/my/checkPayPass';// 修改支付密码
 import Validate from './components/my/validate';// 身份验证
 import ResetPayPass from './components/my/resetPayPass';// 重置支付密码
@@ -278,6 +281,12 @@ const App = StackNavigator({
     Manage:{
         screen: Manage,
     },
+    TiedCard: {
+        screen: TiedCard,
+    },// 绑定银行卡
+    Unbind:{
+        screen: Unbind,
+    },// 解绑银行卡
     CheckPayPass:{
         screen: CheckPayPass,
     },

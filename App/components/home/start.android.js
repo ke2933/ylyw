@@ -140,15 +140,19 @@ export default class App extends Component {
             this._handleConnectivityChange
         );
     }
+
     _handleConnectivityChange = (isConnected) => {
-        if(isConnected.type === "none"){
+        if (isConnected.type === "none") {
             this.setState({
                 isConnected: false,
-            })
+            });
+            Alert.alert("网络似乎断掉了")
+            NetWork = false;
         } else {
             this.setState({
                 isConnected: true,
-            })
+            });
+            NetWork = true;
         }
 
     };
@@ -156,80 +160,82 @@ export default class App extends Component {
     AppStateChange = (nextAppState) => {
         // 登陆状态锁屏
         if (nextAppState === 'active') {
-            fetch(requestUrl.getId)
-                .then((response) => response.json())
-                .then((responseData) => {
-                    // 判断是否有登录状态
-                    if (responseData.status === '10') {
-                        AsyncStorage.getItem('UserPhone').then((result) => {
-                            // 判断是否退出登录
-                            if (JSON.parse(result)) {
-                                // 未退出登录，需重新登录
-                                // 根据手机号获取登录验证码
-                                let phone = JSON.parse(result);
-                                let formData = new FormData();
-                                formData.append("phone", phone);
-                                fetch(requestUrl.againSend, {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'multipart/form-data',
-                                    },
-                                    body: formData,
-                                })
-                                    .then((response) => response.json())
-                                    .then((responseData) => {
-                                        console.log(responseData);
-                                        // 0:请求成功 2:手机号不能为空 3:手机号格式不正确 4:帐号不存在
-                                        if (responseData.status === '0') {
-                                            //请求成功，通过短信验证码登录
-                                            let formData = new FormData();
-                                            formData.append("doctorPhone", phone);
-                                            formData.append("verificationCode", responseData.oauthStatus);
-                                            console.log(formData)
-                                            fetch(requestUrl.smsLogin, {
-                                                method: 'POST',
-                                                headers: {
-                                                    'Content-Type': 'multipart/form-data',
-                                                },
-                                                body: formData,
-                                            })
-                                                .then((response) => response.json())
-                                                .then((responseData) => {
-                                                    setTimeout(() => {
-                                                        this.props.navigation.navigate('Home');
-                                                    }, 1000)
-                                                })
-                                                .catch(
-                                                    (error) => {
-                                                        this.setState({isLoading: false,});
-                                                        console.log('error', error);
-                                                    });
-                                        } else {
-                                            RouteName.splice(0, RouteName.length);
-                                            this.props.navigation.navigate('Login');
-                                        }
+            if (this.state.isConnected) {
+                fetch(requestUrl.getId)
+                    .then((response) => response.json())
+                    .then((responseData) => {
+                        // 判断是否有登录状态
+                        if (responseData.status === '10') {
+                            AsyncStorage.getItem('UserPhone').then((result) => {
+                                // 判断是否退出登录
+                                if (JSON.parse(result)) {
+                                    // 未退出登录，需重新登录
+                                    // 根据手机号获取登录验证码
+                                    let phone = JSON.parse(result);
+                                    let formData = new FormData();
+                                    formData.append("phone", phone);
+                                    fetch(requestUrl.againSend, {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'multipart/form-data',
+                                        },
+                                        body: formData,
                                     })
-                                    .catch(
-                                        (error) => {
-                                            console.log('error', error);
-                                        });
-                            } else {
-                                // 没有登录状态 && 不需要重新登录
-                                if (this.state.flag) {
-                                    // this.props.navigation.navigate('Login');
+                                        .then((response) => response.json())
+                                        .then((responseData) => {
+                                            console.log(responseData);
+                                            // 0:请求成功 2:手机号不能为空 3:手机号格式不正确 4:帐号不存在
+                                            if (responseData.status === '0') {
+                                                //请求成功，通过短信验证码登录
+                                                let formData = new FormData();
+                                                formData.append("doctorPhone", phone);
+                                                formData.append("verificationCode", responseData.oauthStatus);
+                                                console.log(formData)
+                                                fetch(requestUrl.smsLogin, {
+                                                    method: 'POST',
+                                                    headers: {
+                                                        'Content-Type': 'multipart/form-data',
+                                                    },
+                                                    body: formData,
+                                                })
+                                                    .then((response) => response.json())
+                                                    .then((responseData) => {
+                                                        setTimeout(() => {
+                                                            this.props.navigation.navigate('Home');
+                                                        }, 1000)
+                                                    })
+                                                    .catch(
+                                                        (error) => {
+                                                            this.setState({isLoading: false,});
+                                                            console.log('error', error);
+                                                        });
+                                            } else {
+                                                RouteName.splice(0, RouteName.length);
+                                                this.props.navigation.navigate('Login');
+                                            }
+                                        })
+                                        .catch(
+                                            (error) => {
+                                                console.log('error', error);
+                                            });
+                                } else {
+                                    // 没有登录状态 && 不需要重新登录
+                                    if (this.state.flag) {
+                                        // this.props.navigation.navigate('Login');
+                                    }
                                 }
-                            }
-                        });
-                    } else {
-                        // 有登录状态
-                        DeviceEventEmitter.emit("Index", "hehe");
-                    }
-                })
-                .catch((error) => {
-                    RouteName.splice(0, RouteName.length);
-                    this.props.navigation.navigate('Login');
-                    console.log('error', error);
-                });
+                            });
+                        } else {
+                            // 有登录状态
+                            DeviceEventEmitter.emit("Index", "hehe");
+                        }
+                    })
+                    .catch((error) => {
+                        RouteName.splice(0, RouteName.length);
+                        this.props.navigation.navigate('Login');
+                        console.log('error', error);
+                    });
+            }
         }
     };
 

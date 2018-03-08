@@ -36,7 +36,7 @@ export default class protocol extends Component {
     }
 
     componentWillMount() {
-        RouteName.push(this.props.navigation.state);
+       NetWork ? null : Alert.alert('网络似乎断掉了'), this.setState({isLoading: false});RouteName.push(this.props.navigation.state);
         if (Android) {
             BackHandler.addEventListener('hardwareBackPress', () => {
                 backAndroid();
@@ -185,7 +185,7 @@ export default class protocol extends Component {
                         style={styles.protocolText}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;除前款所述情形外，“医来医往”同时保留在不事先通知用户的情况下随时中断或终止部分或全部网络服务的权利，对于所有服务的中断或终止而造成的任何损失，“医来医往”无需对用户或任何第三方承担任何责任。
                     </Text>
                     <Text
-                        style={styles.protocolText}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5.3用户服务终止后，“医来医往”仍有以下权利：
+                        style={styles.protocolText}>5.3用户服务终止后，“医来医往”仍有以下权利：
                     </Text>
                     <Text
                         style={styles.protocolText}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5.3.1户注销后，“医来医往”有权保留该用户的注册数据及以前的行为记录；

@@ -90,6 +90,12 @@ export let requestUrl = {
     "checkPaymentPasswordInform": IP + "/f/0.0.1-SNAPSHOT/purse/purse/checkPaymentPasswordInform",//找回密码 信息认证
     "getLoginPhone": IP + "/f/0.0.1-SNAPSHOT/purse/purse/getLoginPhone",//获取当前登陆手机号 隐藏的
 
+    // 提现
+    "addBankCard": IP + "/f/0.0.1-SNAPSHOT/fdc/doctorBankCard/addBankCard",//绑定银行卡
+    "unbundlingBankCard": IP + "/f/0.0.1-SNAPSHOT/fdc/doctorBankCard/unbundlingBankCard",//解绑银行卡
+    "findBankCard": IP + "/f/0.0.1-SNAPSHOT/fdc/doctorBankCard/findBankCard",//查询银行卡信息
+    "appEncashment": IP + "/f/0.0.1-SNAPSHOT/fdc/encashment/appEncashment",//申请提现借口
+    "compareDate": IP + "/f/0.0.1-SNAPSHOT/fdc/encashment/compareDate",// 当月提现次数
 
 // 发起会诊
     "selectCountry": IP + "/f/0.0.1-SNAPSHOT/fdc/like/selectCountry",// 获取全国的id

@@ -168,7 +168,6 @@ export default class home extends Component {
                                 fetch(requestUrl.oauthStatus)
                                     .then((response) => response.json())
                                     .then((responseData) => {
-                                        console.log(responseData);
                                         UserInfo.oauthStatus = responseData.status;// 认证状态
                                         this.setState({
                                             oauthStatus: responseData.status,

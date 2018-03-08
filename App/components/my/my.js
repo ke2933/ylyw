@@ -42,7 +42,7 @@ export default class My extends Component {
     }
 
     componentWillMount() {
-        // RouteName.push(this.props.navigation.state);
+        NetWork ? null : Alert.alert('网络似乎断掉了'), this.setState({isLoading: false});
         if (Android) {
             BackHandler.addEventListener('hardwareBackPress', () => {
                 backAndroid();
@@ -63,9 +63,10 @@ export default class My extends Component {
         DeviceEventEmitter.removeAllListeners('myData');
     }
 
-    _onRefresh(){
+    _onRefresh() {
         this.myData();
     }
+
     render() {
         const {navigate, goBack} = this.props.navigation;
         return (
@@ -341,6 +342,7 @@ export default class My extends Component {
                 if (responseData.status === '10') {
                     this.props.navigation.navigate('Login');
                 } else if (responseData.status === '0') {
+                    UserInfo.name = responseData.name;
                     this.setState({
                         status: responseData.status,
                         department: responseData.department,

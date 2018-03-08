@@ -62,7 +62,7 @@ export default class groupReply extends Component {
     }
 
     componentWillMount() {
-        RouteName.push(this.props.navigation.state);
+       NetWork ? null : Alert.alert('网络似乎断掉了'), this.setState({isLoading: false});RouteName.push(this.props.navigation.state);
         if (Android) {
             BackHandler.addEventListener('hardwareBackPress', () => {
                 backAndroid();
@@ -202,7 +202,17 @@ export default class groupReply extends Component {
                         <TouchableOpacity
                             activeOpacity={.8}
                             onPress={() => {
-                                this.submit('1');
+                                Alert.alert('', '确认拒收该会诊请求吗？', [
+                                    {
+                                        text: '取消', onPress: () => {
+                                        }
+                                    },
+                                    {
+                                        text: '确认', onPress: () => {
+                                            this.submit('1');
+                                        }
+                                    },
+                                ])
                             }}
                         >
                             <View style={styles.btnBox}>

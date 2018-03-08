@@ -70,7 +70,7 @@ export default class FirstReply extends Component {
     }
 
     componentWillMount() {
-        RouteName.push(this.props.navigation.state);        if (Android) {            BackHandler.addEventListener('hardwareBackPress', () => {                backAndroid();                return true;            });        }
+       NetWork ? null : Alert.alert('网络似乎断掉了'), this.setState({isLoading: false});RouteName.push(this.props.navigation.state);        if (Android) {            BackHandler.addEventListener('hardwareBackPress', () => {                backAndroid();                return true;            });        }
         if (this.props.navigation.state.params) {
             let data = this.props.navigation.state.params.data;
             this.setState({
