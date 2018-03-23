@@ -59,7 +59,8 @@ export default class orderInfo extends Component {
     }
 
     componentWillMount() {
-       NetWork ? null : Alert.alert('网络似乎断掉了'), this.setState({isLoading: false});RouteName.push(this.props.navigation.state);
+       NetWork ? null : Alert.alert('网络似乎断掉了'), this.setState({isLoading: false});
+       RouteName.push(this.props.navigation.state);
         if (Android) {
             BackHandler.addEventListener('hardwareBackPress', () => {
                 backAndroid();
@@ -197,6 +198,7 @@ export default class orderInfo extends Component {
                         <Text style={styles.text}>{this.state.consultationReason}</Text>
                     </View>
                     <Button text={'会诊沟通'} click={this.submit.bind(this)}/>
+                    {IPhoneX ? <View style={{height: 34,}}></View> : null}
                 </ScrollView>
             </View>
         );

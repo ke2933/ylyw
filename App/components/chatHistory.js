@@ -262,6 +262,7 @@ export default class chatHistory extends Component {
                         </TouchableOpacity>
                     </View>
                 </TouchableOpacity>
+                {IPhoneX ? <View style={{height: 34,}}></View> : null}
             </View>
         );
     }

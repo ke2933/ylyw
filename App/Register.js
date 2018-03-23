@@ -576,12 +576,12 @@ export default class Register extends Component {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: '#fff',
-        height: Platform.OS === 'ios' ? height : height - StatusBar.currentHeight,
+        height: IOS ? height : height - StatusBar.currentHeight,
 
     },
     //短信登录
     goBack: {
-        marginTop: Platform.OS === 'ios' ? 30 : 10,
+        marginTop: IOS ? IPhoneX ? 54 : 30 : 10,
         marginLeft: 20,
     },
     smsLoginText: {
@@ -685,7 +685,7 @@ const styles = StyleSheet.create({
     //去注册
     goRegisterBox: {
         position: 'absolute',
-        bottom: 33,
+        bottom: IPhoneX ? 67 : 33,
         left: 0,
     },
     goRegisterText: {

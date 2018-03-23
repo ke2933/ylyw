@@ -154,7 +154,6 @@ export default class App extends Component {
             });
             NetWork = true;
         }
-
     };
 
     AppStateChange = (nextAppState) => {
@@ -235,6 +234,12 @@ export default class App extends Component {
                         this.props.navigation.navigate('Login');
                         console.log('error', error);
                     });
+            }
+        } else {
+            // Android 进入后台断开 WebSocket
+            if (Android && WS.flag) {
+                WS.flag = false;
+                WS.ws.close();
             }
         }
     };

@@ -60,7 +60,8 @@ export default class AttestationOne extends Component {
     }
 
     componentWillMount() {
-       NetWork ? null : Alert.alert('网络似乎断掉了'), this.setState({isLoading: false});RouteName.push(this.props.navigation.state);
+       NetWork ? null : Alert.alert('网络似乎断掉了'), this.setState({isLoading: false});
+       RouteName.push(this.props.navigation.state);
         if (Android) {
             BackHandler.addEventListener('hardwareBackPress', () => {
                 backAndroid();
@@ -314,6 +315,15 @@ export default class AttestationOne extends Component {
                                 initialNumToRender={20}
                                 keyExtractor={item => item.id}
                                 renderItem={({item}) => this.titleRender(item)}
+                                ListFooterComponent={() => {
+                                    if (IPhoneX) {
+                                        return (
+                                            <View style={{height: 34,}}></View>
+                                        )
+                                    } else {
+                                        return null;
+                                    }
+                                }}
                                 ItemSeparatorComponent={() => {
                                     return (
                                         <View style={{
@@ -374,6 +384,15 @@ export default class AttestationOne extends Component {
                                     initialNumToRender={20}
                                     keyExtractor={item => item.id}
                                     renderItem={({item}) => this.firstRender(item)}
+                                    ListFooterComponent={() => {
+                                        if (IPhoneX) {
+                                            return (
+                                                <View style={{height: 34,}}></View>
+                                            )
+                                        } else {
+                                            return null;
+                                        }
+                                    }}
                                     ItemSeparatorComponent={() => {
                                         return (
                                             <View style={{
@@ -389,12 +408,21 @@ export default class AttestationOne extends Component {
                                     initialNumToRender={20}
                                     keyExtractor={item => item.id}
                                     renderItem={({item}) => this.secondRender(item)}
+                                    ListFooterComponent={() => {
+                                        if (IPhoneX) {
+                                            return (
+                                                <View style={{height: 34,}}></View>
+                                            )
+                                        } else {
+                                            return null;
+                                        }
+                                    }}
                                 />
                             </View>
                         </TouchableOpacity>
                     </TouchableOpacity> : null
                 }
-
+                {IPhoneX ? <View style={{height: 34,}}></View> : null}
             </View>
 
         );

@@ -91,6 +91,7 @@ export default class amendUserImg extends Component {
                     source={{uri: this.state.userImgUrl}}
                 />
                 <Button text={'保存'} click={this.submit.bind(this)}/>
+                {IPhoneX ? <View style={{height: 34,}}></View> : null}
                 <Toast
                     ref='toast'
                     style={{backgroundColor: '#333333', borderRadius: 10,}}

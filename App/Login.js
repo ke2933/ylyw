@@ -329,8 +329,7 @@ export default class Login extends Component {
     }
 }
 
-const
-    styles = StyleSheet.create({
+const styles = StyleSheet.create({
         container: {
             backgroundColor: '#fff',
             height: IOS ? SCREEN_HEIGHT : SCREEN_HEIGHT - StatusBarHeight,
@@ -338,7 +337,7 @@ const
         },
         //短信登录
         smsLoginBox: {
-            marginTop: IOS ? 30 : 10,
+            marginTop: IOS ? IPhoneX ? 54 : 30 : 10,
             marginRight: 23,
             flexDirection: 'row',
             justifyContent: 'space-between',
@@ -424,7 +423,7 @@ const
         // 客服
         serviceBox: {
             position: 'absolute',
-            bottom: 33,
+            bottom: IPhoneX ? 67 : 33,
             left: 0,
         },
         serviceText: {

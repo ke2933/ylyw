@@ -212,6 +212,15 @@ export default class pool extends Component {
                                         }}></View>
                                     )
                                 }}
+                                ListFooterComponent={() => {
+                                    if (IPhoneX) {
+                                        return (
+                                            <View style={{height: 34,}}></View>
+                                        )
+                                    } else {
+                                        return null;
+                                    }
+                                }}
                                 refreshing={this.state.isRefresh}
                                 ListEmptyComponent={() => {
                                     return (
@@ -241,6 +250,15 @@ export default class pool extends Component {
                                             height: px2dp(6),
                                         }}></View>
                                     )
+                                }}
+                                ListFooterComponent={() => {
+                                    if (IPhoneX) {
+                                        return (
+                                            <View style={{height: 34,}}></View>
+                                        )
+                                    } else {
+                                        return null;
+                                    }
                                 }}
                                 refreshing={this.state.isRefresh}
                                 onEndReached={() => this.onEndReached()}

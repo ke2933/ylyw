@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
     },
     copyrightBox: {
         position: 'absolute',
-        bottom: px2dp(50),
+        bottom: IPhoneX ? px2dp(84) : px2dp(50),
         left: 0,
         width: SCREEN_WIDTH,
         alignItems: 'center',

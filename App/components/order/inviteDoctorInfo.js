@@ -155,6 +155,7 @@ export default class doctorInfo extends Component {
                         <Text style={styles.descTitle}>个人简介：</Text>
                         <Text style={styles.descText}>{this.state.doctorHonour}</Text>
                     </View>
+                    {IPhoneX ? <View style={{height: 34,}}></View> : null}
                 </ScrollView>
                 <Toast
                     ref='toast'
@@ -182,14 +183,14 @@ const styles = StyleSheet.create({
     doctorInfo: {
         flexDirection: 'row',
         position: 'relative',
-        paddingTop: IOS ? 73 : px2dp(73 - StatusBarHeight),
-        height: IOS ? 226 : px2dp(226 - StatusBarHeight),
+        paddingTop: IOS ? IPhoneX ? 97 : 73 : px2dp(53),
+        height: IOS ? IPhoneX ? 250 : 226 : px2dp(226) - StatusBar.currentHeight,
         paddingLeft: px2dp(19),
         backgroundColor: '#566CB7',
     },
     goBackClick: {
         position: 'absolute',
-        top: IOS ? 23 : px2dp(0),
+        top: IOS ? IPhoneX ? 44 : 20 : 0,
         left: px2dp(10),
         padding: px2dp(10),
     },

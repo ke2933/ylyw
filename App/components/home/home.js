@@ -1,4 +1,6 @@
-import React, {Component} from 'react';
+import React, {
+    Component
+} from 'react';
 import {
     StyleSheet,
     Text,
@@ -14,15 +16,23 @@ import {
     AppState,
 } from 'react-native';
 
-import {requestUrl} from '../../Network/url';//接口url
-import {RegExp} from '../../Network/RegExp';//正则
-import {Global} from '../../common/Global';
-import Toast, {DURATION} from 'react-native-easy-toast';//弱提示
+import {
+    requestUrl
+} from '../../Network/url'; //接口url
+import {
+    RegExp
+} from '../../Network/RegExp'; //正则
+import {
+    Global
+} from '../../common/Global';
+import Toast, {
+    DURATION
+} from 'react-native-easy-toast'; //弱提示
 import Loading from '../../common/Loading';
 import Banner from '../../common/Banner';
 import Orientation from 'react-native-orientation';
 import px2dp from "../../common/Tool";
-import PushNotification from 'react-native-push-notification';
+import AliyunPush from 'react-native-aliyun-push';
 
 export default class home extends Component {
     static navigationOptions = {
@@ -33,7 +43,7 @@ export default class home extends Component {
         super(props);
         this.homeFlag = true;
         this.state = {
-            oauthStatus: '',//0未认证 1认证一步 2审核 3认证
+            oauthStatus: '', //0未认证 1认证一步 2审核 3认证
             systemTidings: 0,
             orderTidings: 0,
             groupTidings: 0,
@@ -42,7 +52,6 @@ export default class home extends Component {
             doctorDetailId: '',
             receiveFlag: false,
             TIFlag: false,
-            pushFlag: false,
             // OIFlag: false,
             // SIFlag: false,
         }
@@ -70,14 +79,10 @@ export default class home extends Component {
                         let data = JSON.parse(e.data);
                         // 接收并处理未读消息
                         switch (data.type) {
-                            case 'CI':// 聊天消息
-                                if (Android && this.state.pushFlag) {
-                                    PushNotification.localNotificationSchedule({
-                                        message: data.messageContent ? data.messageContent : "您收到一条消息，请查看", // (required)
-                                        date: new Date() //
-                                    });
-                                }
-                                let CIArr = {count: 0};
+                            case 'CI': // 聊天消息
+                                let CIArr = {
+                                    count: 0
+                                };
                                 AsyncStorage.getItem(UserInfo.doctorId + 'NoCIArr').then((result) => {
                                     if (result) {
                                         CIArr = JSON.parse(result);
@@ -107,19 +112,19 @@ export default class home extends Component {
                                     });
                                 });
                                 break;
-                            case 'OI':// 订单消息
-                                if (Android && this.state.pushFlag) {
-                                    PushNotification.localNotificationSchedule({
-                                        message: data.informContent ? data.informContent : "您收到一条订单消息，请查看", // (required)
-                                        date: new Date() //
-                                    });
-                                }
-                                let OIArr = {"count": 0, "lists": []};
+                            case 'OI': // 订单消息
+                                let OIArr = {
+                                    "count": 0,
+                                    "lists": []
+                                };
                                 AsyncStorage.getItem(UserInfo.doctorId + 'OIArr').then((result) => {
                                     if (result) {
                                         OIArr = JSON.parse(result);
                                     } else {
-                                        OIArr = {"count": 0, "lists": []};
+                                        OIArr = {
+                                            "count": 0,
+                                            "lists": []
+                                        };
                                     }
                                     OIArr.lists.unshift(data);
                                     OIArr.count += 1;
@@ -135,19 +140,19 @@ export default class home extends Component {
                                     });
                                 });
                                 break;
-                            case 'SI':// 系统消息
-                                if (Android && this.state.pushFlag) {
-                                    PushNotification.localNotificationSchedule({
-                                        message: data.informContent ? data.informContent : "您收到一条系统消息，请查看", // (required)
-                                        date: new Date() //
-                                    });
-                                }
-                                let SIArr = {"count": 0, "lists": []};
+                            case 'SI': // 系统消息
+                                let SIArr = {
+                                    "count": 0,
+                                    "lists": []
+                                };
                                 AsyncStorage.getItem(UserInfo.doctorId + 'SIArr').then((result) => {
                                     if (result) {
                                         SIArr = JSON.parse(result);
                                     } else {
-                                        SIArr = {"count": 0, "lists": []};
+                                        SIArr = {
+                                            "count": 0,
+                                            "lists": []
+                                        };
                                     }
                                     SIArr.lists.unshift(data);
                                     SIArr.count += 1;
@@ -164,11 +169,11 @@ export default class home extends Component {
                                     });
                                 });
                                 break;
-                            case 'OSI':// 认证审核通过
+                            case 'OSI': // 认证审核通过
                                 fetch(requestUrl.oauthStatus)
                                     .then((response) => response.json())
                                     .then((responseData) => {
-                                        UserInfo.oauthStatus = responseData.status;// 认证状态
+                                        UserInfo.oauthStatus = responseData.status; // 认证状态
                                         this.setState({
                                             oauthStatus: responseData.status,
                                         });
@@ -178,19 +183,21 @@ export default class home extends Component {
                                                 .then((response) => response.json())
                                                 .then((responseData) => {
                                                     console.log(responseData);
-                                                    UserInfo.countryId = 'cc9e0348b3c311e7b77800163e08d49b';// 全国id
-                                                    UserInfo.doctorId = responseData.id;// 登陆医生id
-                                                    UserInfo.areaId = responseData.areaId;// 责任区域id
-                                                    UserInfo.cityId = responseData.cityId;// 地区id
+                                                    UserInfo.countryId = 'cc9e0348b3c311e7b77800163e08d49b'; // 全国id
+                                                    UserInfo.doctorId = responseData.id; // 登陆医生id
+                                                    UserInfo.areaId = responseData.areaId; // 责任区域id
+                                                    UserInfo.cityId = responseData.cityId; // 地区id
                                                     UserInfo.cityName = responseData.cityName;
                                                     UserInfo.deptId = responseData.deptId;
                                                     UserInfo.deptName = responseData.deptName;
                                                     UserInfo.fee = responseData.fee;
-                                                    UserInfo.type = responseData.type;// 是否提供会诊服务 1是 0否
+                                                    UserInfo.type = responseData.type; // 是否提供会诊服务 1是 0否
                                                 })
                                                 .catch(
                                                     (error) => {
-                                                        this.setState({isLoading: false});
+                                                        this.setState({
+                                                            isLoading: false
+                                                        });
                                                         console.log('error', error);
                                                     });
                                         }
@@ -203,7 +210,7 @@ export default class home extends Component {
                                         });
                                 console.log(UserInfo);
                                 break;
-                            case 'LG':// 帐号互冲
+                            case 'LG': // 帐号互冲
                                 WS.flag = false;
                                 WS.ws.close();
                                 AsyncStorage.removeItem('UserPhone').then(() => {
@@ -212,15 +219,16 @@ export default class home extends Component {
                                     console.log('失败');
                                 });
                                 RouteName.splice(0, RouteName.length);
-                                Alert.alert('', '您的账号在其他设备登陆', [
-                                    {
-                                        text: '确认', onPress: () => {
-                                            Obj.this.props.navigation.navigate('Login');
-                                        }
-                                    },
-                                ], {cancelable: false});
+                                Alert.alert('', '您的账号在其他设备登陆', [{
+                                    text: '确认',
+                                    onPress: () => {
+                                        Obj.this.props.navigation.navigate('Login');
+                                    }
+                                },], {
+                                    cancelable: false
+                                });
                                 break;
-                            case 'DOI':// 会诊结束清未读聊天记录
+                            case 'DOI': // 会诊结束清未读聊天记录
                                 AsyncStorage.getItem(UserInfo.doctorId + 'CIArr').then((result) => {
                                     if (result) {
                                         let CIArr = JSON.parse(result);
@@ -237,10 +245,12 @@ export default class home extends Component {
                                     }
                                 });
                                 break;
-                            case 'UR':// 未接收的推送信息
+                            case 'UR': // 未接收的推送信息
                                 let chatRoomBeanList = data.chatRoomBeanList;
                                 if (chatRoomBeanList.length > 0) {
-                                    let CIArr = {count: 0,};
+                                    let CIArr = {
+                                        count: 0,
+                                    };
                                     AsyncStorage.getItem(UserInfo.doctorId + 'NoCIArr').then((result) => {
                                         if (result) {
                                             CIArr = JSON.parse(result);
@@ -288,7 +298,10 @@ export default class home extends Component {
                                 }
                                 let orderRecordBeanList = data.orderRecordBeanList;
                                 if (orderRecordBeanList.length > 0) {
-                                    let OIArr = {count: 0, lists: []};
+                                    let OIArr = {
+                                        count: 0,
+                                        lists: []
+                                    };
                                     AsyncStorage.getItem(UserInfo.doctorId + 'OIArr').then((result) => {
                                         if (result) {
                                             OIArr = JSON.parse(result);
@@ -298,7 +311,9 @@ export default class home extends Component {
                                             OIArr.count = orderRecordBeanList.length;
                                             OIArr.lists = orderRecordBeanList;
                                         }
-                                        this.setState({orderTidings: OIArr.count});
+                                        this.setState({
+                                            orderTidings: OIArr.count
+                                        });
                                         OrderNum = OIArr.count;
                                         AsyncStorage.setItem(UserInfo.doctorId + 'OIArr', JSON.stringify(OIArr)).then(() => {
                                             DeviceEventEmitter.emit('Tidings', '首页推送');
@@ -310,7 +325,10 @@ export default class home extends Component {
                                 }
                                 let sysRecordBeanList = data.sysRecordBeanList;
                                 if (sysRecordBeanList.length > 0) {
-                                    let SIArr = {count: 0, lists: []};
+                                    let SIArr = {
+                                        count: 0,
+                                        lists: []
+                                    };
                                     AsyncStorage.getItem(UserInfo.doctorId + 'OIArr').then((result) => {
                                         if (result) {
                                             SIArr = JSON.parse(result);
@@ -320,7 +338,9 @@ export default class home extends Component {
                                             SIArr.count = sysRecordBeanList.length;
                                             SIArr.lists = sysRecordBeanList;
                                         }
-                                        this.setState({systemTidings: SIArr.count});
+                                        this.setState({
+                                            systemTidings: SIArr.count
+                                        });
                                         SystemNum = SIArr.count;
                                         AsyncStorage.setItem(UserInfo.doctorId + 'SIArr', JSON.stringify(SIArr)).then(() => {
                                             DeviceEventEmitter.emit('Tidings', '首页推送');
@@ -352,44 +372,28 @@ export default class home extends Component {
 
     // 监听返回键－绑定事件
     componentWillMount() {
-        AppState.addEventListener('change', this.AppStateChange);
-
-        PushNotification.configure({
-            // (optional) Called when Token is generated (iOS and Android)
-            onRegister: function (token) {
-                //  获取到IOS token 发送至后台
-                let formData = new FormData();
-                formData.append("deviceToken", token.token);
-                console.log(formData);
-                fetch(requestUrl.initDeviceToken, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                    },
-                    body: formData,
+        AliyunPush.getDeviceId((deviceId) => {
+            let formData = new FormData();
+            formData.append("deviceToken", deviceId);
+            console.log(formData);
+            fetch(requestUrl.initDeviceToken, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+                body: formData,
+            })
+                .then((response) => response.json())
+                .then((responseData) => {
+                    console.log(responseData)
                 })
-                    .then((response) => response.json())
-                    .then((responseData) => {
-                        console.log(responseData)
-                    })
-                    .catch(
-                        (error) => {
-                            console.log('error', error);
-                        });
-            },
-            onNotification: function (notification) {
-                // 接收 APNs 的消息
-                console.log('NOTIFICATION:', notification);
-            },
-            senderID: "YOUR GCM SENDER ID",
-            permissions: {
-                alert: true,
-                badge: true,
-                sound: true
-            },
-            popInitialNotification: true,
-            requestPermissions: true,
+                .catch(
+                    (error) => {
+                        console.log('error', error);
+                    });
         });
+        AliyunPush.addListener(this.handleAliyunPushMessage);
+        AppState.addEventListener('change', this.AppPushNum);
         Keyboard.dismiss();
         // socket 消息处理
         this.getId();
@@ -510,7 +514,7 @@ export default class home extends Component {
             .then((response) => response.json())
             .then((responseData) => {
                 console.log(responseData);
-                UserInfo.oauthStatus = responseData.status;// 认证状态
+                UserInfo.oauthStatus = responseData.status; // 认证状态
                 this.setState({
                     oauthStatus: responseData.status,
                 });
@@ -520,19 +524,21 @@ export default class home extends Component {
                         .then((response) => response.json())
                         .then((responseData) => {
                             console.log(responseData);
-                            UserInfo.countryId = 'cc9e0348b3c311e7b77800163e08d49b';// 全国id
-                            UserInfo.doctorId = responseData.id;// 登陆医生id
-                            UserInfo.areaId = responseData.areaId;// 责任区域id
-                            UserInfo.cityId = responseData.cityId;// 地区id
+                            UserInfo.countryId = 'cc9e0348b3c311e7b77800163e08d49b'; // 全国id
+                            UserInfo.doctorId = responseData.id; // 登陆医生id
+                            UserInfo.areaId = responseData.areaId; // 责任区域id
+                            UserInfo.cityId = responseData.cityId; // 地区id
                             UserInfo.cityName = responseData.cityName;
                             UserInfo.deptId = responseData.deptId;
                             UserInfo.deptName = responseData.deptName;
                             UserInfo.fee = responseData.fee;
-                            UserInfo.type = responseData.type;// 是否提供会诊服务 1是 0否
+                            UserInfo.type = responseData.type; // 是否提供会诊服务 1是 0否
                         })
                         .catch(
                             (error) => {
-                                this.setState({isLoading: false});
+                                this.setState({
+                                    isLoading: false
+                                });
                                 console.log('error', error);
                             });
                 }
@@ -543,29 +549,38 @@ export default class home extends Component {
                 });
     }
 
-    AppStateChange = (nextAppState) => {
-        if (nextAppState === 'active') {
-            this.setState({
-                pushFlag: false,
-            })
-        }else{
-            this.setState({
-                pushFlag: true,
-            })
-        }
-    }
 
     // 监听返回键－解除绑定事件
     componentWillUnmount() {
         this.homeFlag = false;
         DeviceEventEmitter.removeAllListeners('Home');
         DeviceEventEmitter.removeAllListeners('Index');
-        AppState.removeEventListener('change', this.AppStateChange);
+        AliyunPush.removeListener(this.handleAliyunPushMessage);
+        AppState.removeEventListener('change', this.AppPushNum);
         // DeviceEventEmitter.removeAllListeners('receive');
     }
 
+    AppPushNum = (nextAppState) => {
+        if (nextAppState !== 'active') {
+            AliyunPush.setApplicationIconBadgeNumber(this.state.systemTidings + this.state.orderTidings + this.state.groupTidings);
+        }
+    }
+
+    handleAliyunPushMessage = (e) => {
+        console.log("Message Received. " + JSON.stringify(e));
+        //e结构说明:
+        //e.type: "notification":通知 或者 "message":消息
+        //e.title: 推送通知/消息标题
+        //e.body: 推送通知/消息具体内容
+        //e.actionIdentifier: "opened":用户点击了通知, "removed"用户删除了通知, 其他非空值:用户点击了自定义action（仅限ios）
+        //e.extras: 用户附加的{key:value}的对象
+
+    };
+
     render() {
-        const {navigate} = this.props.navigation;
+        const {
+            navigate
+        } = this.props.navigation;
         return (
             <View style={styles.container}>
 
@@ -785,10 +800,10 @@ const styles = StyleSheet.create({
     },
     topBox: {
         position: 'absolute',
-        top: IOS ? 20 : 0,
+        top: IOS ? IPhoneX ? 44 : 20 : 0,
         left: 0,
         width: SCREEN_WIDTH,
-        height: px2dp(45),
+        height: 44,
         flexDirection: "row",
         justifyContent: 'space-between',
         alignItems: 'center',

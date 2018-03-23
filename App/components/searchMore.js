@@ -111,6 +111,15 @@ export default class searchMore extends Component {
                             }}></View>
                         )
                     }}
+                    ListFooterComponent={() => {
+                        if (IPhoneX) {
+                            return (
+                                <View style={{height: 34,}}></View>
+                            )
+                        } else {
+                            return null;
+                        }
+                    }}
                     onRefresh={() => {
                         this.fetchData();
                     }}

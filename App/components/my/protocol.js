@@ -291,7 +291,7 @@ export default class protocol extends Component {
                         <Text style={styles.agreeText}>同意协议</Text>
                     </View>
                 </TouchableOpacity> : null}
-
+                {IPhoneX ? <View style={{height: 34,}}></View> : null}
             </View>
         );
     }

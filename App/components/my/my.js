@@ -389,7 +389,7 @@ const styles = StyleSheet.create({
     userContent: {
         justifyContent: 'center',
         height: IOS ? px2dp(212) : px2dp(212) - StatusBarHeight,
-        paddingTop: IOS ? 20 : 0,
+        paddingTop: IOS ? IPhoneX ? 44 : 20 : 0,
         backgroundColor: '#5168b7',
     },
     userBox: {

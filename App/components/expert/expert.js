@@ -68,7 +68,8 @@ export default class selectHospital extends Component {
     }
 
     componentWillMount() {
-       NetWork ? null : Alert.alert('网络似乎断掉了'), this.setState({isLoading: false});RouteName.push(this.props.navigation.state);
+        NetWork ? null : Alert.alert('网络似乎断掉了'), this.setState({isLoading: false});
+        RouteName.push(this.props.navigation.state);
         if (Android) {
             BackHandler.addEventListener('hardwareBackPress', () => {
                 backAndroid();
@@ -161,6 +162,15 @@ export default class selectHospital extends Component {
                             data={this.state.hospitalArr}
                             initialNumToRender={20}
                             keyExtractor={item => item.hospitalId}
+                            ListFooterComponent={() => {
+                                if (IPhoneX) {
+                                    return (
+                                        <View style={{height: 34,}}></View>
+                                    )
+                                } else {
+                                    return null;
+                                }
+                            }}
                             renderItem={({item}) => this.renderItem(item)}
                             onRefresh={() => {
                                 this.findDepartmentData();

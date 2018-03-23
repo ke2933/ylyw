@@ -14,6 +14,7 @@ import {
     FlatList,
     BackHandler,
     Keyboard,
+    KeyboardAvoidingView,
 } from 'react-native';
 
 import {
@@ -64,7 +65,10 @@ export default class Launch extends Component {
     }
 
     componentWillMount() {
-       NetWork ? null : Alert.alert('网络似乎断掉了'), this.setState({isLoading: false});RouteName.push(this.props.navigation.state);
+        NetWork ? null : Alert.alert('网络似乎断掉了'), this.setState({
+            isLoading: false
+        });
+        RouteName.push(this.props.navigation.state);
         if (Android) {
             BackHandler.addEventListener('hardwareBackPress', () => {
                 backAndroid();
@@ -172,20 +176,16 @@ export default class Launch extends Component {
                          'title': '发起会诊',
                          'rightBtn': {type: 'false',}
                      }}/>
-                <View
-                    style={{height: SCREEN_HEIGHT - 65 - this.state.keyHeight}}
-                    // onLayout={(e) => {
-                    //     console.log(e.nativeEvent);
-                    //     // this.state.scrollFlag ? this.refs._scroll.scrollTo({x: 0, y: 350, animated: true}) : null;
-                    //     this.state.scrollFlag ? this.refs._scroll.scrollToEnd() : null;
-                    // }}
+                {/*<View style={{height: SCREEN_HEIGHT - 65 - this.state.keyHeight}}>*/}
+                <KeyboardAvoidingView
+                    behavior={'padding'}
+                    style={{
+                        width: SCREEN_WIDTH,
+                        height: IPhoneX ? SCREEN_HEIGHT - 88 : SCREEN_HEIGHT - 64,
+                    }}
                 >
                     <ScrollView
                         ref='_scroll'
-                        // onScroll={(event)=>{
-                        //     console.log(event.nativeEvent.contentOffset.x);//水平滚动距离
-                        //     console.log(event.nativeEvent.contentOffset.y)//垂直滚动距离
-                        // }}
                         keyboardShouldPersistTaps={'handled'}
                     >
                         <View style={styles.titleBox}>
@@ -305,7 +305,7 @@ export default class Launch extends Component {
                                 underlineColorAndroid={'transparent'}
                                 onBlur={this.onContentSizeChangeReg.bind(this)}
                                 onFocus={() => {
-                                   this.refs._scroll.scrollTo({
+                                    this.refs._scroll.scrollTo({
                                         x: 0,
                                         y: this.state.scrollY,
                                         animated: true
@@ -314,8 +314,10 @@ export default class Launch extends Component {
                             />
                         </View>
                         <Button text={'下一步'} click={this.submit.bind(this)}/>
+                        {IPhoneX ? <View style={{height: 34,}}></View> : null}
                     </ScrollView>
-                </View>
+                    </KeyboardAvoidingView>
+                {/*</View>*/}
                 <Toast
                     ref='toast'
                     style={{backgroundColor: '#333333', borderRadius: 10,}}
@@ -392,8 +394,8 @@ export default class Launch extends Component {
                                 />
                             </View>
                         </TouchableOpacity>
-                    </TouchableOpacity> : null
-                }
+                    </TouchableOpacity>
+                    : null}
             </View>
         );
     }
@@ -480,14 +482,14 @@ export default class Launch extends Component {
         )
     };
 
-    // 多行输入高度处理
+// 多行输入高度处理
     onContentSizeChange(event) {
         this.setState({
             textareaHeight: event.nativeEvent.contentSize.height,
         })
     }
 
-    // 验证患者姓名
+// 验证患者姓名
     patientNameReg() {
         if (this.state.patientName === '') {
             this.refs.toast.show('请输入患者姓名');
@@ -499,7 +501,7 @@ export default class Launch extends Component {
         }
     }
 
-    // 验证手机号
+// 验证手机号
     phoneReg() {
         if (this.state.phone === '') {
             this.refs.toast.show('请输入手机号');
@@ -511,7 +513,7 @@ export default class Launch extends Component {
         }
     }
 
-    // 验证备注信息
+// 验证备注信息
     onContentSizeChangeReg() {
         if (this.state.consultationReason === '') {
             this.refs.toast.show('请输入会诊目的及备注');
@@ -519,7 +521,7 @@ export default class Launch extends Component {
         }
     }
 
-    // 处理上传图片路径
+// 处理上传图片路径
     caseImgUrl(data) {
         let temp = this.state.caseImgUrlArr;
         temp.push(data);
@@ -528,7 +530,7 @@ export default class Launch extends Component {
         });
     }
 
-    // 展示上传的图片
+// 展示上传的图片
     renderCaseImg() {
         let imgArr = this.state.caseImgUrlArr;
         if (imgArr.length >= 0) {
@@ -564,7 +566,7 @@ export default class Launch extends Component {
 
     }
 
-    //删除图片
+//删除图片
     deleteCaseImg(index) {
         let temp = this.state.caseImgUrlArr;
         temp.splice(index, 1);
@@ -573,7 +575,7 @@ export default class Launch extends Component {
         })
     }
 
-    // 提交事件
+// 提交事件
     submit() {
         if (this.state.patientName === '') {
             this.refs.toast.show('请输入患者姓名');

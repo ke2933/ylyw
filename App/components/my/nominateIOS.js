@@ -9,6 +9,7 @@ import {
     Keyboard,
     BackHandler,
     ScrollView,
+    KeyboardAvoidingView,
 } from 'react-native';
 
 import {requestUrl} from '../../Network/url';//接口url
@@ -104,7 +105,13 @@ export default class Nominate extends Component {
                              textStyle: {color: this.state.btnFlag ? '#fff' : '#7287cd',}
                          }
                      }}/>
-                <View style={{height: SCREEN_HEIGHT - 65 - this.state.keyHeight}}>
+                <KeyboardAvoidingView
+                    behavior={'padding'}
+                    style={{
+                        width: SCREEN_WIDTH,
+                        height: IPhoneX ? SCREEN_HEIGHT - 88 : SCREEN_HEIGHT - 64,
+                        justifyContent: 'flex-end',
+                    }}>
                     <ScrollView>
                         <TextInput
                             style={[styles.textareaStyle, {
@@ -131,8 +138,9 @@ export default class Nominate extends Component {
                             underlineColorAndroid={'transparent'}
                             onBlur={this.blurReg.bind(this)}
                         />
+                        {IPhoneX ? <View style={{height: 34,}}></View> : null}
                     </ScrollView>
-                </View>
+                </KeyboardAvoidingView>
                 <Toast
                     ref='toast'
                     style={{backgroundColor: '#333333', borderRadius: 10,}}

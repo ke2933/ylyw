@@ -211,7 +211,7 @@ export default class manage extends Component {
                             </TouchableOpacity>
                         </View>
                     }
-
+                    {IPhoneX ? <View style={{height: 34,}}></View> : null}
                 </ScrollView>
                 <Toast
                     ref='toast'

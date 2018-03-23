@@ -147,12 +147,13 @@ export default class SetUp extends Component {
                             {text: '确认', onPress: this.loginOut.bind(this)},
                         ])
                     }}
-                    style={{position: 'absolute', left: 0, bottom: 0}}
+                    style={{position: 'absolute', left: 0, bottom: IPhoneX ? 34 : 0}}
                 >
                     <View style={styles.loginOutBox}>
                         <Text style={styles.loginOutText}>退出登录</Text>
                     </View>
                 </TouchableOpacity>
+                {IPhoneX ? <View style={{height: 34,}}></View> : null}
             </View>
         );
     }

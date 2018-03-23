@@ -182,6 +182,15 @@ export default class selectHospital extends Component {
                             onRefresh={() => {
                                 this.findDepartmentData();
                             }}
+                            ListFooterComponent={() => {
+                                if (IPhoneX) {
+                                    return (
+                                        <View style={{height: 34,}}></View>
+                                    )
+                                } else {
+                                    return null;
+                                }
+                            }}
                             refreshing={this.state.isRefresh}
                             onEndReached={() => this.onEndReached()}
                             onEndReachedThreshold={.1}

@@ -90,8 +90,7 @@ export default class userInfo extends Component {
                     networkActivityIndicatorVisible={this.state.Loading}//IOS设定网络活动指示器(就是那个菊花)是否显示在状态栏。
                     statusBarStyle={"default"}//ios:白底黑字  android:黑底白字
                 />
-                <Nav
-                    navigation={this.props.navigation}
+                <Nav navigation={this.props.navigation}
                     leftClick={() => {
                         DeviceEventEmitter.emit('myData');
                         RouteName.pop();
@@ -228,6 +227,7 @@ export default class userInfo extends Component {
 
                         </TouchableOpacity>
                     </View>
+                    {IPhoneX ? <View style={{height: 34,}}></View> : null}
                 </ScrollView>
             </View>
         );

@@ -119,6 +119,15 @@ export default class doctorList extends Component {
                     initialNumToRender={20}
                     keyExtractor={item => item.id}
                     renderItem={({item}) => this.renderItem(item)}
+                    ListFooterComponent={() => {
+                        if (IPhoneX) {
+                            return (
+                                <View style={{height: 34,}}></View>
+                            )
+                        } else {
+                            return null;
+                        }
+                    }}
                     ItemSeparatorComponent={() => {
                         return (
                             <View style={{height: Pixel, backgroundColor: '#efefef'}}></View>

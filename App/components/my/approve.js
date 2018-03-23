@@ -165,7 +165,7 @@ export default class approve extends Component {
                             <Image source={require('../../images/arrow_gray_right.png')}/>
                         </View>
                     </TouchableOpacity>
-
+                    {IPhoneX ? <View style={{height: 34,}}></View> : null}
                 </ScrollView>
             </View>
         );

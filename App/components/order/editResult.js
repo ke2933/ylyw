@@ -11,6 +11,7 @@ import {
     BackHandler,
     AsyncStorage,
     Keyboard,
+    KeyboardAvoidingView
 } from 'react-native';
 
 import {requestUrl} from '../../Network/url';//接口url
@@ -179,9 +180,16 @@ export default class EditResult extends Component {
                         </View>
                     </TouchableOpacity>
                 </View>
-                <View style={{
-                    height: SCREEN_HEIGHT - 65 - px2dp(50) - this.state.keyHeight,
-                }}>
+                {/*<View style={{*/}
+                {/*height: SCREEN_HEIGHT - 65 - px2dp(50) - this.state.keyHeight,*/}
+                {/*}}>*/}
+                <KeyboardAvoidingView
+                    behavior={'padding'}
+                    style={{
+                        width: SCREEN_WIDTH,
+                        height: IPhoneX ? SCREEN_HEIGHT - 88 - px2dp(50) : SCREEN_HEIGHT - 64 - px2dp(50),
+                    }}
+                >
                     <ScrollView
                         ref="_scroll"
                         style={{flex: 1}}>
@@ -308,8 +316,9 @@ export default class EditResult extends Component {
                                 </TouchableOpacity>
                                 : null}
                         </View>
+                        {IPhoneX ? <View style={{height: 34,}}></View> : null}
                     </ScrollView>
-                </View>
+                </KeyboardAvoidingView>
                 <Toast
                     ref='toast'
                     style={{backgroundColor: '#333333', borderRadius: 10,}}
@@ -508,120 +517,119 @@ export default class EditResult extends Component {
     }
 }
 
-const
-    styles = StyleSheet.create({
-        container: {
-            flex: 1,
-            backgroundColor: '#EFEFEF',
-        },
-        navBtn: {
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-around',
-            height: px2dp(50),
-            backgroundColor: '#fff',
-        },
-        tabBox: {
-            justifyContent: 'center',
-            alignItems: 'center',
-            width: px2dp(150),
-            height: px2dp(30),
-            borderRadius: px2dp(10),
-            backgroundColor: '#fff',
-        },
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#EFEFEF',
+    },
+    navBtn: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-around',
+        height: px2dp(50),
+        backgroundColor: '#fff',
+    },
+    tabBox: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: px2dp(150),
+        height: px2dp(30),
+        borderRadius: px2dp(10),
+        backgroundColor: '#fff',
+    },
 
-        tabText: {
-            fontSize: FONT_SIZE(17),
-        },
-        // 附件box
-        exhibitionBox: {
-            padding: px2dp(10),
-            marginTop: px2dp(5),
-            marginLeft: px2dp(7.5),
-            marginRight: px2dp(7.5),
-            width: px2dp(360),
-            minHeight: px2dp(200),
-            borderRadius: px2dp(10),
-            backgroundColor: '#fff',
-            borderWidth: Pixel,
-            borderColor: '#898989',
-        },
-        caseItemImg: {
-            width: px2dp(64),
-            height: px2dp(61),
-            borderRadius: px2dp(4),
-            marginRight: px2dp(15),
-            marginBottom: px2dp(15),
-        },
-        diagnosisText: {
-            fontSize: FONT_SIZE(16),
-            color: '#333',
-            lineHeight: px2dp(25),
-        },
-        editResultBox: {
-            padding: px2dp(10),
-            marginTop: px2dp(8),
-            marginLeft: px2dp(7.5),
-            marginRight: px2dp(7.5),
-            width: px2dp(360),
-            height: px2dp(245),
-            borderRadius: px2dp(10),
-            backgroundColor: '#fff',
-            borderWidth: Pixel,
-            borderColor: '#898989',
-        },
-        textareaStyle: {
-            flex: 1,
-            fontSize: FONT_SIZE(16),
-            color: '#333',
-            textAlignVertical: 'top',
-        },
-        audioContent: {
-            height: px2dp(35),
-        },
-        videoBox: {
-            paddingTop: px2dp(8),
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-        },
-        playText: {
-            fontSize: FONT_SIZE(14),
-            color: '#333',
-        },
-        RecordingBox: {
-            flexDirection: 'row',
-            alignItems: 'center',
-        },
-        RecordingText: {
-            marginLeft: px2dp(8),
-            fontSize: FONT_SIZE(14),
-            color: '#333',
-        },
-        btns: {
-            flexDirection: 'row',
-            justifyContent: 'space-around',
-            marginTop: px2dp(38),
-            marginBottom: px2dp(67),
-        },
-        btnBox: {
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: '#566cb7',
-            width: px2dp(150),
-            height: px2dp(46),
-            borderRadius: px2dp(10),
-        },
-        btnText: {
-            fontSize: px2dp(18),
-            color: '#fffefe',
-        },
-        backgroundVideo: {
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            bottom: 0,
-            right: 0,
-        }
+    tabText: {
+        fontSize: FONT_SIZE(17),
+    },
+    // 附件box
+    exhibitionBox: {
+        padding: px2dp(10),
+        marginTop: px2dp(5),
+        marginLeft: px2dp(7.5),
+        marginRight: px2dp(7.5),
+        width: px2dp(360),
+        minHeight: px2dp(200),
+        borderRadius: px2dp(10),
+        backgroundColor: '#fff',
+        borderWidth: Pixel,
+        borderColor: '#898989',
+    },
+    caseItemImg: {
+        width: px2dp(64),
+        height: px2dp(61),
+        borderRadius: px2dp(4),
+        marginRight: px2dp(15),
+        marginBottom: px2dp(15),
+    },
+    diagnosisText: {
+        fontSize: FONT_SIZE(16),
+        color: '#333',
+        lineHeight: px2dp(25),
+    },
+    editResultBox: {
+        padding: px2dp(10),
+        marginTop: px2dp(8),
+        marginLeft: px2dp(7.5),
+        marginRight: px2dp(7.5),
+        width: px2dp(360),
+        height: px2dp(245),
+        borderRadius: px2dp(10),
+        backgroundColor: '#fff',
+        borderWidth: Pixel,
+        borderColor: '#898989',
+    },
+    textareaStyle: {
+        flex: 1,
+        fontSize: FONT_SIZE(16),
+        color: '#333',
+        textAlignVertical: 'top',
+    },
+    audioContent: {
+        height: px2dp(35),
+    },
+    videoBox: {
+        paddingTop: px2dp(8),
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    },
+    playText: {
+        fontSize: FONT_SIZE(14),
+        color: '#333',
+    },
+    RecordingBox: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    RecordingText: {
+        marginLeft: px2dp(8),
+        fontSize: FONT_SIZE(14),
+        color: '#333',
+    },
+    btns: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        marginTop: px2dp(38),
+        marginBottom: px2dp(67),
+    },
+    btnBox: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#566cb7',
+        width: px2dp(150),
+        height: px2dp(46),
+        borderRadius: px2dp(10),
+    },
+    btnText: {
+        fontSize: px2dp(18),
+        color: '#fffefe',
+    },
+    backgroundVideo: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        bottom: 0,
+        right: 0,
+    }
 
-    });
+});

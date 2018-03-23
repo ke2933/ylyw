@@ -236,6 +236,7 @@ export default class libraryInfo extends Component {
                         <Text style={styles.conclusionText}>{this.state.conclusionContext}</Text>
                     </View>
                     {/*<Button text={'会诊记录'} click={this.submit.bind(this)}/>*/}
+                    {IPhoneX ? <View style={{height: 34,}}></View> : null}
                 </ScrollView>
                 <Toast
                     ref='toast'

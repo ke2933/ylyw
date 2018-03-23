@@ -1,4 +1,6 @@
-import React, {Component} from 'react';
+import React, {
+    Component
+} from 'react';
 import {
     StyleSheet,
     Text,
@@ -15,12 +17,20 @@ import {
     KeyboardAvoidingView,
 } from 'react-native';
 
-import {Global} from '../../common/Global';
+import {
+    Global
+} from '../../common/Global';
 import Loading from '../../common/Loading';
-import {requestUrl} from '../../Network/url';//接口url
-import {RegExp} from '../../Network/RegExp';//正则
-import Nav from '../../common/Nav';//导航
-import Toast, {DURATION} from 'react-native-easy-toast';//弱提示
+import {
+    requestUrl
+} from '../../Network/url'; //接口url
+import {
+    RegExp
+} from '../../Network/RegExp'; //正则
+import Nav from '../../common/Nav'; //导航
+import Toast, {
+    DURATION
+} from 'react-native-easy-toast'; //弱提示
 import px2dp from "../../common/Tool";
 //按钮
 
@@ -34,19 +44,19 @@ export default class withdrawCash extends Component {
         this.state = {
             isLoading: true,
             loadingText: '加载中...',
-            countQuota: '',// 总
+            countQuota: '', // 总
             extractQuota: '',
-            price: "",// 提交的数量
-            taxPrice: '0',// 税额
-            actualPrice: '0',// 实际额
+            price: "", // 提交的数量
+            taxPrice: '0', // 税额
+            actualPrice: '0', // 实际额
             payPass: '',
-            payPassFlag: false,// 输入密码
+            payPassFlag: false, // 输入密码
             payPassBoxBottom: new Animated.Value(-300),
             passFlag: true,
-            keyFlag: false,// 键盘状态
+            keyFlag: false, // 键盘状态
             keyHeight: 0,
             bankId: "", // id
-            bankCardType: "",// 卡行
+            bankCardType: "", // 卡行
             bankCardNo: "", // 卡号
             withdrawalFlag: false,
         }
@@ -59,7 +69,9 @@ export default class withdrawCash extends Component {
 
 
     _keyboardDidShow(e) {
-        _scrollView.scrollToEnd({animated: true});
+        _scrollView.scrollToEnd({
+            animated: true
+        });
         this.setState({
             keyFlag: true,
             keyHeight: Math.ceil(e.endCoordinates.height),
@@ -75,7 +87,9 @@ export default class withdrawCash extends Component {
     }
 
     componentWillMount() {
-        NetWork ? null : Alert.alert('网络似乎断掉了'), this.setState({isLoading: false});
+        NetWork ? null : Alert.alert('网络似乎断掉了'), this.setState({
+            isLoading: false
+        });
         RouteName.push(this.props.navigation.state);
         if (Android) {
             BackHandler.addEventListener('hardwareBackPress', () => {
@@ -121,7 +135,9 @@ export default class withdrawCash extends Component {
             })
             .catch(
                 (error) => {
-                    this.setState({isLoading: false,});
+                    this.setState({
+                        isLoading: false,
+                    });
                     console.log('error', error);
                     this.refs.toast.show('查询卡信息失败，请稍后重试');
                 });
@@ -136,7 +152,7 @@ export default class withdrawCash extends Component {
                     this.setState({
                         isLoading: false,
                         bankId: responseData.doctorBankCard.id, // id
-                        bankCardType: responseData.doctorBankCard.bankCardType,// 卡行
+                        bankCardType: responseData.doctorBankCard.bankCardType, // 卡行
                         bankCardNo: responseData.doctorBankCard.bankCardNo, // 卡号
                     })
                 } else {
@@ -147,7 +163,9 @@ export default class withdrawCash extends Component {
             })
             .catch(
                 (error) => {
-                    this.setState({isLoading: false,});
+                    this.setState({
+                        isLoading: false,
+                    });
                     console.log('error', error);
                     this.refs.toast.show('查询卡信息失败，请稍后重试');
                 });
@@ -160,40 +178,43 @@ export default class withdrawCash extends Component {
         let price = Math.round(num) / 100;
         if (num <= 80000) {
             this.setState({
-                price: price,// 提交的数量
-                taxPrice: 0,// 税额
-                actualPrice: Math.round(num) / 100,// 实际额
+                price: price, // 提交的数量
+                taxPrice: 0, // 税额
+                actualPrice: Math.round(num) / 100, // 实际额
             })
         } else if (80000 < num && num <= 400000) {
             this.setState({
-                price: price,// 提交的数量
-                taxPrice: Math.round((num - 80000) * 2 / 10) / 100,// 税额
-                actualPrice: Math.round(num - (num - 80000) * 2 / 10) / 100,// 实际额
+                price: price, // 提交的数量
+                taxPrice: Math.round((num - 80000) * 2 / 10) / 100, // 税额
+                actualPrice: Math.round(num - (num - 80000) * 2 / 10) / 100, // 实际额
             })
         } else if (400000 < num && num <= 2000000) {
             this.setState({
-                price: price,// 提交的数量
-                taxPrice: Math.round(num * 8 * 2 / 100) / 100,// 税额
-                actualPrice: Math.round(num - (num * 8 * 2 / 100)) / 100,// 实际额
+                price: price, // 提交的数量
+                taxPrice: Math.round(num * 8 * 2 / 100) / 100, // 税额
+                actualPrice: Math.round(num - (num * 8 * 2 / 100)) / 100, // 实际额
             })
         } else if (20000 < num && num <= 50000) {
             this.setState({
-                price: price,// 提交的数量
-                taxPrice: Math.round(num * 8 * 3 / 100 - 200000) / 100,// 税额
-                actualPrice: Math.round(num - (num * 8 * 3 / 100 - 200000)) / 100,// 实际额
+                price: price, // 提交的数量
+                taxPrice: Math.round(num * 8 * 3 / 100 - 200000) / 100, // 税额
+                actualPrice: Math.round(num - (num * 8 * 3 / 100 - 200000)) / 100, // 实际额
             })
         } else {
             this.setState({
-                price: price,// 提交的数量
-                taxPrice: Math.round(num * 8 * 4 / 100 - 700000) / 100,// 税额
-                actualPrice: Math.round(num - (num * 8 * 4 / 100 - 700000)) / 100,// 实际额
+                price: price, // 提交的数量
+                taxPrice: Math.round(num * 8 * 4 / 100 - 700000) / 100, // 税额
+                actualPrice: Math.round(num - (num * 8 * 4 / 100 - 700000)) / 100, // 实际额
             })
         }
     }
 
 
     render() {
-        const {navigate, goBack} = this.props.navigation;
+        const {
+            navigate,
+            goBack
+        } = this.props.navigation;
         return (
             <View style={styles.container}>
                 {this.state.isLoading ? <Loading text={this.state.loadingText}/> : null}
@@ -315,7 +336,7 @@ export default class withdrawCash extends Component {
                 {this.state.payPassFlag ?
                     <TouchableOpacity
                         onPress={() => {
-                            this.setState({payPassFlag: false})
+                            this.setState({payPassFlag: false, payPass: ''})
                         }}
                         activeOpacity={1}
                         style={{
@@ -334,120 +355,128 @@ export default class withdrawCash extends Component {
                                 activeOpacity={1}
                                 style={{flex: 1}}
                             >
-                                <View style={styles.writeTitleBox}>
+                                {/*<KeyboardAvoidingView*/}
+                                    {/*behavior={'padding'}*/}
+                                    {/*style={{*/}
+                                        {/*width: SCREEN_WIDTH,*/}
+                                        {/*// height: IPhoneX ? SCREEN_HEIGHT - 122 : SCREEN_HEIGHT - 64,*/}
+                                        {/*justifyContent: 'flex-end',*/}
+                                    {/*}}>*/}
+                                    <View style={styles.writeTitleBox}>
+                                        <TouchableOpacity
+                                            onPress={() => {
+                                                this.setState({
+                                                    payPassFlag: false,
+                                                })
+                                            }}
+                                            activeOpacity={.8}
+                                            style={styles.cancelClick}
+                                        >
+                                            <View style={styles.cancelBox}>
+                                                <Text style={styles.cancelText}>取消</Text>
+                                            </View>
+                                        </TouchableOpacity>
+                                        <Text style={styles.writeTitle}>请输入支付密码</Text>
+                                    </View>
+                                    <View style={styles.payPassContent}>
+                                        <TextInput
+                                            style={styles.payPass}
+                                            placeholderTextColor={'#c7c7cd'}
+                                            defaultValue={this.state.payPass.substr(0, 1)}
+                                            underlineColorAndroid={'transparent'}
+                                            secureTextEntry={true}
+                                            maxLength={1}
+                                            caretHidden={true}
+                                        >
+                                        </TextInput>
+                                        <TextInput
+                                            style={styles.payPass}
+                                            placeholderTextColor={'#c7c7cd'}
+                                            defaultValue={this.state.payPass.substr(1, 1)}
+                                            underlineColorAndroid={'transparent'}
+                                            secureTextEntry={true}
+                                            maxLength={1}
+                                            caretHidden={true}
+                                        >
+                                        </TextInput>
+                                        <TextInput
+                                            style={styles.payPass}
+                                            placeholderTextColor={'#c7c7cd'}
+                                            defaultValue={this.state.payPass.substr(2, 1)}
+                                            underlineColorAndroid={'transparent'}
+                                            secureTextEntry={true}
+                                            maxLength={1}
+                                            caretHidden={true}
+                                        >
+                                        </TextInput>
+                                        <TextInput
+                                            style={styles.payPass}
+                                            placeholderTextColor={'#c7c7cd'}
+                                            defaultValue={this.state.payPass.substr(3, 1)}
+                                            underlineColorAndroid={'transparent'}
+                                            secureTextEntry={true}
+                                            maxLength={1}
+                                            caretHidden={true}
+                                        >
+                                        </TextInput>
+                                        <TextInput
+                                            style={styles.payPass}
+                                            placeholderTextColor={'#c7c7cd'}
+                                            defaultValue={this.state.payPass.substr(4, 1)}
+                                            underlineColorAndroid={'transparent'}
+                                            secureTextEntry={true}
+                                            maxLength={1}
+                                            caretHidden={true}
+                                        >
+                                        </TextInput>
+                                        <TextInput
+                                            style={styles.payPass}
+                                            placeholderTextColor={'#c7c7cd'}
+                                            defaultValue={this.state.payPass.substr(5, 1)}
+                                            underlineColorAndroid={'transparent'}
+                                            secureTextEntry={true}
+                                            maxLength={1}
+                                            caretHidden={true}
+                                        >
+                                        </TextInput>
+                                        <TextInput
+                                            style={styles.payTextInput}
+                                            placeholderTextColor={'#c7c7cd'}
+                                            onChangeText={(text) => {
+                                                this.setState({
+                                                    payPass: text,
+                                                });
+                                                if (text.length >= 6) {
+                                                    this.cash(text);
+                                                }
+                                            }}
+                                            autoFocus={true}
+                                            defaultValue={this.state.payPass}
+                                            underlineColorAndroid={'transparent'}
+                                            secureTextEntry={true}
+                                            maxLength={6}
+                                            caretHidden={true}
+                                            keyboardType={'numeric'}
+                                            onLongPress={() => {
+                                                return false
+                                            }}
+                                        >
+                                        </TextInput>
+
+                                    </View>
                                     <TouchableOpacity
                                         onPress={() => {
-                                            this.setState({
-                                                payPassFlag: false,
-                                            })
+                                            navigate('Validate');
                                         }}
                                         activeOpacity={.8}
-                                        style={styles.cancelClick}
                                     >
-                                        <View style={styles.cancelBox}>
-                                            <Text style={styles.cancelText}>取消</Text>
+                                        <View style={styles.forgetBox}>
+                                            <Text style={styles.forgetText}>
+                                                忘记密码？
+                                            </Text>
                                         </View>
                                     </TouchableOpacity>
-                                    <Text style={styles.writeTitle}>请输入支付密码</Text>
-                                </View>
-                                <View style={styles.payPassContent}>
-                                    <TextInput
-                                        style={styles.payPass}
-                                        placeholderTextColor={'#c7c7cd'}
-                                        defaultValue={this.state.payPass.substr(0, 1)}
-                                        underlineColorAndroid={'transparent'}
-                                        secureTextEntry={true}
-                                        maxLength={1}
-                                        caretHidden={true}
-                                    >
-                                    </TextInput>
-                                    <TextInput
-                                        style={styles.payPass}
-                                        placeholderTextColor={'#c7c7cd'}
-                                        defaultValue={this.state.payPass.substr(1, 1)}
-                                        underlineColorAndroid={'transparent'}
-                                        secureTextEntry={true}
-                                        maxLength={1}
-                                        caretHidden={true}
-                                    >
-                                    </TextInput>
-                                    <TextInput
-                                        style={styles.payPass}
-                                        placeholderTextColor={'#c7c7cd'}
-                                        defaultValue={this.state.payPass.substr(2, 1)}
-                                        underlineColorAndroid={'transparent'}
-                                        secureTextEntry={true}
-                                        maxLength={1}
-                                        caretHidden={true}
-                                    >
-                                    </TextInput>
-                                    <TextInput
-                                        style={styles.payPass}
-                                        placeholderTextColor={'#c7c7cd'}
-                                        defaultValue={this.state.payPass.substr(3, 1)}
-                                        underlineColorAndroid={'transparent'}
-                                        secureTextEntry={true}
-                                        maxLength={1}
-                                        caretHidden={true}
-                                    >
-                                    </TextInput>
-                                    <TextInput
-                                        style={styles.payPass}
-                                        placeholderTextColor={'#c7c7cd'}
-                                        defaultValue={this.state.payPass.substr(4, 1)}
-                                        underlineColorAndroid={'transparent'}
-                                        secureTextEntry={true}
-                                        maxLength={1}
-                                        caretHidden={true}
-                                    >
-                                    </TextInput>
-                                    <TextInput
-                                        style={styles.payPass}
-                                        placeholderTextColor={'#c7c7cd'}
-                                        defaultValue={this.state.payPass.substr(5, 1)}
-                                        underlineColorAndroid={'transparent'}
-                                        secureTextEntry={true}
-                                        maxLength={1}
-                                        caretHidden={true}
-                                    >
-                                    </TextInput>
-                                    <TextInput
-                                        style={styles.payTextInput}
-                                        placeholderTextColor={'#c7c7cd'}
-                                        onChangeText={(text) => {
-                                            this.setState({
-                                                payPass: text,
-                                            });
-                                            if (text.length >= 6) {
-                                                this.cash(text);
-                                            }
-                                        }}
-                                        autoFocus={true}
-                                        defaultValue={this.state.payPass}
-                                        underlineColorAndroid={'transparent'}
-                                        secureTextEntry={true}
-                                        maxLength={6}
-                                        caretHidden={true}
-                                        keyboardType={'numeric'}
-                                        onLongPress={() => {
-                                            return false
-                                        }}
-                                    >
-                                    </TextInput>
-
-                                </View>
-                                <TouchableOpacity
-                                    onPress={() => {
-                                        navigate('Validate');
-                                    }}
-                                    activeOpacity={.8}
-                                >
-                                    <View style={styles.forgetBox}>
-                                        <Text style={styles.forgetText}>
-                                            忘记密码？
-                                        </Text>
-                                    </View>
-                                </TouchableOpacity>
+                                {/*</KeyboardAvoidingView>*/}
                                 <View style={{height: IOS ? this.state.keyHeight : 0}}></View>
                             </TouchableOpacity>
                         </Animated.View>
@@ -563,7 +592,9 @@ export default class withdrawCash extends Component {
                         })
                         .catch(
                             (error) => {
-                                this.setState({isLoading: false,});
+                                this.setState({
+                                    isLoading: false,
+                                });
                                 console.log('error', error);
                             });
                 } else {
@@ -576,7 +607,9 @@ export default class withdrawCash extends Component {
             })
             .catch(
                 (error) => {
-                    this.setState({isLoading: false,});
+                    this.setState({
+                        isLoading: false,
+                    });
                     console.log('error', error);
                 });
 

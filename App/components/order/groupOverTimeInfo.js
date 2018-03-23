@@ -221,6 +221,7 @@ export default class orderInfo extends Component {
                             </View>
                         </TouchableOpacity>
                     </View>
+                    {IPhoneX ? <View style={{height: 34,}}></View> : null}
                 </ScrollView>
                 <Toast
                     ref='toast'

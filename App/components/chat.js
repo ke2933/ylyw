@@ -26,6 +26,7 @@ import Toast, {DURATION} from 'react-native-easy-toast';//弱提示
 import {Global} from '../common/Global';
 import Loading from '../common/Loading';
 import px2dp from "../common/Tool";
+import AliyunPush from 'react-native-aliyun-push';
 
 export default class chat extends Component {
     static navigationOptions = {
@@ -60,27 +61,28 @@ export default class chat extends Component {
             pageNo: '0',
             dataFlag: false,
             rightMenuBottom: new Animated.Value(0),
-            keyHeight: 0,
+            keyHeight: IPhoneX ? 34 : 0,
             // keyFlag: false,
         }
     }
 
     _keyboardDidShow(e) {
         this.setState({
-            keyHeight: e.endCoordinates.height,
+            // keyHeight: e.endCoordinates.height,
         })
     }
 
     _keyboardDidHide() {
         this.setState({
-            keyHeight: 0,
+            // keyHeight: 0,
         })
     }
 
     componentWillMount() {
         this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow.bind(this));
         this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide.bind(this));
-       NetWork ? null : Alert.alert('网络似乎断掉了'), this.setState({isLoading: false});RouteName.push(this.props.navigation.state);
+        NetWork ? null : Alert.alert('网络似乎断掉了'), this.setState({isLoading: false});
+        RouteName.push(this.props.navigation.state);
         if (Android) {
             BackHandler.addEventListener('hardwareBackPress', () => {
                 backAndroid();
@@ -323,6 +325,7 @@ export default class chat extends Component {
 
     AppStateChange = (nextAppState) => {
         if (nextAppState === 'inactive' || nextAppState === 'background') {
+
             let CIArr = {count: 0};
             AsyncStorage.getItem(UserInfo.doctorId + 'CIArr').then((result) => {
                 if (result) {
@@ -343,6 +346,26 @@ export default class chat extends Component {
                     console.log('失败');
                 });
             });
+
+            let pushNum = 0;
+            AsyncStorage.getItem(UserInfo.doctorId + 'SIArr').then((result) => {
+                if (result) {
+                    pushNum += Number(JSON.parse(result).count);
+                }
+            });
+            // 订单消息数
+            AsyncStorage.getItem(UserInfo.doctorId + 'OIArr').then((result) => {
+                if (result) {
+                    pushNum += Number(JSON.parse(result).count);
+                }
+            });
+            // 聊天数
+            AsyncStorage.getItem(UserInfo.doctorId + 'NoCIArr').then((result) => {
+                if (result) {
+                    pushNum += Number(JSON.parse(result).count);
+                }
+            });
+            AliyunPush.setApplicationIconBadgeNumber(pushNum);
         }
     };
 
@@ -400,13 +423,16 @@ export default class chat extends Component {
                          }
                      }}/>
                 {IOS ?
-                    <View style={{flex: 1}}>
-                        <View style={{
-                            marginTop: px2dp(30),
-                            height: SCREEN_HEIGHT - 102 - Math.min(80, this.state.textareaHeight) - this.state.keyHeight,
+                    <KeyboardAvoidingView
+                        behavior={'padding'}
+                        style={{
+                            width: SCREEN_WIDTH,
+                            height: IPhoneX ? SCREEN_HEIGHT - 122 : SCREEN_HEIGHT - 64,
+                            justifyContent: 'flex-end',
                         }}>
+                        <View style={{flex: 1}}>
                             <ScrollView
-                                // style={{flex: 1, marginTop: px2dp(30)}}
+                                style={{marginTop: px2dp(30)}}
                                 // keyboardDismissMode={'on-drag'}
                                 ref={(scrollView) => {
                                     _scrollView = scrollView;
@@ -422,7 +448,6 @@ export default class chat extends Component {
                                 onContentSizeChange={this._onContentSizeChange}
                             >
                                 {this.renderChat()}
-
                             </ScrollView>
                         </View>
                         <View style={styles.chatContent}>
@@ -455,7 +480,7 @@ export default class chat extends Component {
                                 </View>
                             </TouchableOpacity>
                         </View>
-                    </View>
+                    </KeyboardAvoidingView>
                     :
                     <View style={{flex: 1}}>
                         <ScrollView
@@ -508,7 +533,6 @@ export default class chat extends Component {
                             </TouchableOpacity>
                         </View>
                     </View>}
-
                 {this.state.rightMenuFlag ?
                     <TouchableOpacity
                         onPress={() => {
@@ -565,7 +589,7 @@ export default class chat extends Component {
                                     <Text style={styles.rightOptionText}>取消</Text>
                                 </View>
                             </TouchableOpacity>
-
+                            {IPhoneX ? <View style={{height: 34,}}></View> : null}
                         </Animated.View>
                     </TouchableOpacity>
                     : null}
@@ -623,8 +647,6 @@ export default class chat extends Component {
                         </TouchableOpacity>
                     </View>
                 </TouchableOpacity>
-
-
                 <Toast
                     ref='toast'
                     style={{backgroundColor: '#333333', borderRadius: 10,}}
@@ -634,8 +656,7 @@ export default class chat extends Component {
                     opacity={.8}
                 />
             </View>
-        )
-            ;
+        );
     }
 
 // 多行输入高度处理
@@ -831,24 +852,24 @@ export default class chat extends Component {
                 console.log(responseData);
                 this.setState({isLoading: false});
                 // if (responseData.status === '0') {
-                    let urlArr = [];
-                    for (let i = 0; i < responseData.pictureList.length; i++) {
-                        urlArr.push(
-                            requestUrl.ImgIp + responseData.pictureList[i].pictureUrl
-                        )
-                    }
-                    this.setState({
-                        diseaseName: responseData.diseaseName,
-                        consultationReason: responseData.consultationReason,
-                        fee: responseData.fee,
-                        age: responseData.age,
-                        sex: responseData.sex,
-                        name: responseData.name,
-                        statusName: responseData.statusName,
-                        statusId: responseData.statusId,
-                        bigImgUrl: urlArr,
-                        consultationDoctorId: responseData.consultationDoctorId,
-                    })
+                let urlArr = [];
+                for (let i = 0; i < responseData.pictureList.length; i++) {
+                    urlArr.push(
+                        requestUrl.ImgIp + responseData.pictureList[i].pictureUrl
+                    )
+                }
+                this.setState({
+                    diseaseName: responseData.diseaseName,
+                    consultationReason: responseData.consultationReason,
+                    fee: responseData.fee,
+                    age: responseData.age,
+                    sex: responseData.sex,
+                    name: responseData.name,
+                    statusName: responseData.statusName,
+                    statusId: responseData.statusId,
+                    bigImgUrl: urlArr,
+                    consultationDoctorId: responseData.consultationDoctorId,
+                })
                 // }
             })
             .catch(
@@ -898,7 +919,7 @@ const styles = StyleSheet.create({
     // 折叠部分
     shrinkClick: {
         position: 'absolute',
-        top: IOS ? 65 : 45,
+        top: IOS ? IPhoneX ? 88 : 64 : 45,
         left: 0,
         backgroundColor: 'rgba(0,0,0,.2)',
     },

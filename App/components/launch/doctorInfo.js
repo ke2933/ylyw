@@ -57,7 +57,8 @@ export default class doctorInfo extends Component {
     }
 
     componentWillMount() {
-       NetWork ? null : Alert.alert('网络似乎断掉了'), this.setState({isLoading: false});RouteName.push(this.props.navigation.state);
+       NetWork ? null : Alert.alert('网络似乎断掉了'), this.setState({isLoading: false});
+       RouteName.push(this.props.navigation.state);
         if (Android) {
             BackHandler.addEventListener('hardwareBackPress', () => {
                 backAndroid();
@@ -193,6 +194,7 @@ export default class doctorInfo extends Component {
                             },
                         ])
                     }}/>
+                    {IPhoneX ? <View style={{height: 34,}}></View> : null}
                 </ScrollView>
                 <Toast
                     ref='toast'
@@ -271,14 +273,14 @@ const styles = StyleSheet.create({
     doctorInfo: {
         flexDirection: 'row',
         position: 'relative',
-        paddingTop: IOS ? 73 : px2dp(53),
-        height: IOS ? 226 : px2dp(226) - StatusBar.currentHeight,
+        paddingTop: IOS ? IPhoneX ? 97 : 73 : px2dp(53),
+        height: IOS ? IPhoneX ? 250 : 226 : px2dp(226) - StatusBar.currentHeight,
         paddingLeft: px2dp(19),
         backgroundColor: '#566CB7',
     },
     goBackClick: {
         position: 'absolute',
-        top: IOS ? px2dp(20) : 0,
+        top: IOS ? IPhoneX ? 44 : 20 : 0,
         left: px2dp(10),
         padding: px2dp(10),
     },

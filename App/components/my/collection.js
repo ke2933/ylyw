@@ -78,6 +78,15 @@ export default class collection extends Component {
                     initialNumToRender={20}
                     keyExtractor={item => item.id}
                     renderItem={({item}) => this.renderItem(item)}
+                    ListFooterComponent={() => {
+                        if (IPhoneX) {
+                            return (
+                                <View style={{height: 34,}}></View>
+                            )
+                        } else {
+                            return null;
+                        }
+                    }}
                     onRefresh={() => this.myCollection()}
                     refreshing={this.state.isRefresh}
                     ListEmptyComponent={() => {

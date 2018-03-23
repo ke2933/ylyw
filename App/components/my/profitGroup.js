@@ -57,6 +57,15 @@ export default class profitAll extends Component {
                     onRefresh={() => {
                         this.incomeList();
                     }}
+                    ListFooterComponent={() => {
+                        if (IPhoneX) {
+                            return (
+                                <View style={{height: 34,}}></View>
+                            )
+                        } else {
+                            return null;
+                        }
+                    }}
                     ItemSeparatorComponent={() => {
                         return (
                             <View style={{

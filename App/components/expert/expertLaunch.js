@@ -9,7 +9,9 @@ import {
     ScrollView,
     TouchableOpacity,
     TextInput,
-    BackHandler, Keyboard,
+    BackHandler,
+    Keyboard,
+    KeyboardAvoidingView,
 } from 'react-native';
 
 import {requestUrl} from '../../Network/url';//接口url
@@ -122,7 +124,14 @@ export default class Launch extends Component {
                          'title': '发起会诊',
                          'rightBtn': {type: 'false',}
                      }}/>
-                <View style={{height: SCREEN_HEIGHT - 65 - this.state.keyHeight}}>
+                {/*<View style={{height: SCREEN_HEIGHT - 65 - this.state.keyHeight}}>*/}
+                <KeyboardAvoidingView
+                    behavior={'padding'}
+                    style={{
+                        width: SCREEN_WIDTH,
+                        height: IPhoneX ? SCREEN_HEIGHT - 88 : SCREEN_HEIGHT - 64,
+                    }}
+                >
                     <ScrollView
                         keyboardShouldPersistTaps={'handled'}
                         ref="_scroll"
@@ -239,8 +248,10 @@ export default class Launch extends Component {
                         </View>
 
                         <Button text={'发起会诊'} click={this.submit.bind(this)}/>
+                        {IPhoneX ? <View style={{height: 34,}}></View> : null}
                     </ScrollView>
-                </View>
+                </KeyboardAvoidingView>
+                {/*</View>*/}
 
                 <Toast
                     ref='toast'

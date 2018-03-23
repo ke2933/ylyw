@@ -389,15 +389,15 @@ const styles = StyleSheet.create({
         backgroundColor: '#efefef',
     },
     navContent: {
-        height: IOS ? 65 : 65 - StatusBarHeight,
-        paddingTop: IOS ? 20 : 0,
+        height: IOS ? IPhoneX ? 88 : 64 : 44,
+        paddingTop: IOS ? IPhoneX ? 44 : 20 : 0,
         backgroundColor: Colors.color,
-        alignItems: 'center',
-        justifyContent: 'center',
+        // alignItems: 'flex-end',
+        // justifyContent: 'flex-end',
     },
     navCenter: {
         flexDirection: 'row',
-        height: 45,
+        height: 44,
         width: SCREEN_WIDTH,
         alignItems: 'center',
         justifyContent: 'center',
@@ -409,14 +409,14 @@ const styles = StyleSheet.create({
     },
     rightClick: {
         position: 'absolute',
-        top: IOS ? 20 : 0,
+        top: IOS ? IPhoneX ? 44 : 20 : 0,
         right: 0,
     },
     navRight: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        height: px2dp(45),
+        height: 44,
         paddingRight: px2dp(19),
     },
     btnText: {
@@ -427,7 +427,7 @@ const styles = StyleSheet.create({
     // 筛选
     filterClick: {
         position: 'absolute',
-        top: IOS ? px2dp(65) : px2dp(65 - StatusBarHeight),
+        top: IOS ? IPhoneX ? 88 : 64 : 44,
         left: 0,
         flex: 1,
         zIndex: 2,

@@ -229,6 +229,7 @@ export default class orderInfo extends Component {
                     <Button text={'会诊记录'} click={() => {
                         navigate('ChatHistory', {data: {"consultationId": this.state.consultationId}});
                     }}/>
+                    {IPhoneX ? <View style={{height: 34,}}></View> : null}
                 </ScrollView>
             </View>
         );

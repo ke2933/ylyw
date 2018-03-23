@@ -259,6 +259,7 @@ export default class searchDoctor extends Component {
                             />
                         </View> : null}
                     </View>
+                    {IPhoneX ? <View style={{height: 34,}}></View> : null}
                 </ScrollView>
             )
         }
@@ -426,8 +427,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        height: IOS ? px2dp(64) : px2dp(64 - StatusBarHeight),
-        paddingTop: IOS ? 20 : 0,
+        height: IOS ? IPhoneX ? 88 : 64 : 44,
+        paddingTop: IOS ? IPhoneX ? 44 : 20 : 0,
         backgroundColor: '#f5f5f5',
         borderBottomWidth: Pixel,
         borderBottomColor: '#DBDBDB',

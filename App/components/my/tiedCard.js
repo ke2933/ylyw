@@ -226,6 +226,15 @@ export default class manage extends Component {
                                         }}></View>
                                     )
                                 }}
+                                ListFooterComponent={() => {
+                                    if (IPhoneX) {
+                                        return (
+                                            <View style={{height: 34,}}></View>
+                                        )
+                                    } else {
+                                        return null;
+                                    }
+                                }}
                             />
                         </TouchableOpacity>
                     </TouchableOpacity> : null

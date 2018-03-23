@@ -28,7 +28,7 @@ class Nav extends React.Component {
                     paddingRight: px2dp(25),
                     paddingLeft: px2dp(19),
                     justifyContent: 'center',
-                    height: 45,
+                    height: 44,
                 }}
                 onPress={() => {
                     this.props.leftClick()
@@ -50,7 +50,7 @@ class Nav extends React.Component {
                         paddingRight: px2dp(13),
                         paddingLeft: px2dp(13),
                         justifyContent: 'center',
-                        height: 45,
+                        height: 44,
                     }}
                     onPress={() => {
                         RouteName.splice(0, RouteName.length);
@@ -70,7 +70,7 @@ class Nav extends React.Component {
                         paddingRight: px2dp(19),
                         paddingLeft: px2dp(13),
                         justifyContent: 'center',
-                        height: 45,
+                        height: 44,
                     }}
                 >
                     <Text style={[styles.btnText, rightBtn.textStyle]}>{rightBtn.btnText}</Text>
@@ -81,7 +81,7 @@ class Nav extends React.Component {
                 <View style={{
                     justifyContent: 'center',
                     alignItems: 'center',
-                    height: 45,
+                    height: 44,
                     paddingRight: px2dp(15),
                 }}>
                     <rightBtn.assemblyName style={{color: '#F08058', fontSize: FONT_SIZE(16),}}
@@ -99,7 +99,7 @@ class Nav extends React.Component {
                     paddingRight: px2dp(19),
                     paddingLeft: px2dp(13),
                     justifyContent: 'center',
-                    height: 45,
+                    height: 44,
                 }}>
                     <Text style={styles.rightText}>{rightBtn.text}</Text>
                 </View>
@@ -110,7 +110,7 @@ class Nav extends React.Component {
                     onPress={rightBtn.click}
                     activeOpacity={.8}
                     style={{
-                        height: 45,
+                        height: 44,
                         justifyContent: 'center',
                         paddingRight: px2dp(15),
                         paddingLeft: px2dp(12),
@@ -125,7 +125,7 @@ class Nav extends React.Component {
                     onPress={rightBtn.click}
                     activeOpacity={.8}
                     style={{
-                        height: 45,
+                        height: 44,
                         justifyContent: 'center',
                         paddingRight: px2dp(15),
                         paddingLeft: px2dp(12),
@@ -162,10 +162,10 @@ class Nav extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-        height: IOS ? 65 : 45,
-        paddingTop: IOS ? 20 : 0,
+        height: IOS ? IPhoneX ? 88 : 64 : 44,
+        paddingTop: IOS ? IPhoneX ? 44 : 20 : 0,
         backgroundColor: "#566CB7",
-        justifyContent: 'center',
+        // justifyContent: 'flex-end',
         alignItems: 'center',
     },
     left: {
@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
         // height: 16,
     },
     center: {
-        height: 45,
+        height: 44,
         justifyContent: 'center',
     },
     title: {
@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
     navRightBtn: {
         flexDirection: 'row',
         alignItems: 'center',
-        height: 45,
+        height: 44,
     },
     navRightBtnText: {
         marginLeft: px2dp(5),

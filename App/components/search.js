@@ -216,6 +216,15 @@ export default class Search extends Component {
                         initialNumToRender={20}
                         keyExtractor={item => item.id}
                         renderItem={({item}) => this.renderItem(item)}
+                        ListFooterComponent={() => {
+                            if (IPhoneX) {
+                                return (
+                                    <View style={{height: 34,}}></View>
+                                )
+                            } else {
+                                return null;
+                            }
+                        }}
                         onRefresh={() => {
                             this.setState({pageNo: '1'});
                             this.fetchData(this.state.searchText)
@@ -245,6 +254,15 @@ export default class Search extends Component {
                         initialNumToRender={20}
                         keyExtractor={item => item.id}
                         renderItem={({item}) => this.renderItem(item)}
+                        ListFooterComponent={() => {
+                            if (IPhoneX) {
+                                return (
+                                    <View style={{height: 34,}}></View>
+                                )
+                            } else {
+                                return null;
+                            }
+                        }}
                         onRefresh={() => {
                             this.setState({pageNo: '1'});
                             this.fetchData(this.state.searchText)
@@ -272,6 +290,15 @@ export default class Search extends Component {
                         keyboardDismissMode="on-drag"
                         keyExtractor={item => item.id}
                         renderItem={({item}) => this.renderItem(item)}
+                        ListFooterComponent={() => {
+                            if (IPhoneX) {
+                                return (
+                                    <View style={{height: 34,}}></View>
+                                )
+                            } else {
+                                return null;
+                            }
+                        }}
                         onRefresh={() => {
                             this.setState({pageNo: '1'});
                             this.fetchData(this.state.searchText)
@@ -377,6 +404,7 @@ export default class Search extends Component {
                                 />
                             </View> : null}
                         </View>
+                        {IPhoneX ? <View style={{height: 34,}}></View> : null}
                     </ScrollView>
                 )
             } else if (this.state.api === 'homeSearch') {
@@ -504,6 +532,7 @@ export default class Search extends Component {
                                 />
                             </View> : null}
                         </View>
+                        {IPhoneX ? <View style={{height: 34,}}></View> : null}
                     </ScrollView>
 
                 )
@@ -519,6 +548,15 @@ export default class Search extends Component {
                         onRefresh={() => {
                             this.setState({pageNo: '1'});
                             this.fetchData(this.state.searchText)
+                        }}
+                        ListFooterComponent={() => {
+                            if (IPhoneX) {
+                                return (
+                                    <View style={{height: 34,}}></View>
+                                )
+                            } else {
+                                return null;
+                            }
                         }}
                         ItemSeparatorComponent={() => {
                             return (<View style={{
@@ -1178,8 +1216,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        height: IOS ? px2dp(64) : px2dp(64 - StatusBarHeight),
-        paddingTop: IOS ? 20 : 0,
+        height: IOS ? IPhoneX ? 88 : 64 : 44,
+        paddingTop: IOS ? IPhoneX ? 44 : 20 : 0,
         backgroundColor: '#f5f5f5',
         borderBottomWidth: Pixel,
         borderBottomColor: '#DBDBDB',

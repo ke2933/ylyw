@@ -269,6 +269,15 @@ export default class Library extends Component {
                             initialNumToRender={20}
                             keyExtractor={item => item.id}
                             renderItem={({item}) => this.renderItem(item)}
+                            ListFooterComponent={() => {
+                                if (IPhoneX) {
+                                    return (
+                                        <View style={{height: 34,}}></View>
+                                    )
+                                } else {
+                                    return null;
+                                }
+                            }}
                             onRefresh={() => {
                                 this.setState({pageNo: '1'});
                                 this.fetchLibraryData(this.state.departmentId);
@@ -300,6 +309,15 @@ export default class Library extends Component {
                             onRefresh={() => {
                                 this.setState({pageNo: '1'});
                                 this.defaultSearchMedicalRecord();
+                            }}
+                            ListFooterComponent={() => {
+                                if (IPhoneX) {
+                                    return (
+                                        <View style={{height: 34,}}></View>
+                                    )
+                                } else {
+                                    return null;
+                                }
                             }}
                             ItemSeparatorComponent={() => {
                                 return (
@@ -387,12 +405,13 @@ export default class Library extends Component {
         // 展示图片
         let imgArr = item.pictureList;
         let temp = [];
+        let style = {marginRight: px2dp(6)};
         if (imgArr.length >= 0) {
 
             for (let i = 0; i < (imgArr.length >= 3 ? 3 : imgArr.length); i++) {
                 temp.push(
                     <Image key={i}
-                           style={styles.libraryImg}
+                           style={[styles.libraryImg, i < 3 ? style : null]}
                            source={{uri: requestUrl.ImgIp + imgArr[i].pictureUrl}}/>
                 );
             }
@@ -792,7 +811,7 @@ const styles = StyleSheet.create({
     },
     libraryImgBox: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        // justifyContent: 'space-between',
         height: px2dp(81),
     },
     libraryImg: {
@@ -837,7 +856,7 @@ const styles = StyleSheet.create({
     },
     MaskClick: {
         position: 'absolute',
-        top: IOS ? px2dp(50) + 65 : px2dp(50) + 65 - StatusBarHeight,
+        top: IOS ? IPhoneX ? px2dp(50) + 88 : px2dp(50) + 65 : px2dp(50) + 65 - StatusBarHeight,
         left: 0,
         right: 0,
         bottom: 0,

@@ -236,6 +236,7 @@ export default class GroupEnd extends Component {
                                 }
                             });
                         }}/>
+                    {IPhoneX ? <View style={{height: 34,}}></View> : null}
                 </ScrollView>
             </View>
         );

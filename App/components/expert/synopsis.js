@@ -81,6 +81,7 @@ export default class synopsis extends Component {
                         <Text
                             style={styles.text}>{this.state.departmentDetail}</Text>
                     </View>
+                    {IPhoneX ? <View style={{height: 34,}}></View> : null}
                 </ScrollView>
 
 

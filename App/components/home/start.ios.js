@@ -14,7 +14,7 @@ import {
 import {requestUrl} from "../../Network/url";
 import {Global} from '../../common/Global';
 import Swiper from 'react-native-swiper';
-// import PushNotification from "react-native-push-notification";
+
 
 export default class App extends Component {
     static navigationOptions = {
@@ -213,7 +213,6 @@ export default class App extends Component {
                                                             console.log('error', error);
                                                         });
                                             } else {
-                                                console.log('shibai');
                                                 this.props.navigation.navigate('Login');
                                             }
                                         })

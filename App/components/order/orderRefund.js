@@ -209,6 +209,7 @@ export default class OrderRefund extends Component {
                         <Text style={styles.text}>{this.state.consultationReason}</Text>
                     </View>
                     {this.invitedDoctor()}
+                    {IPhoneX ? <View style={{height: 34,}}></View> : null}
                 </ScrollView>
             </View>
         );

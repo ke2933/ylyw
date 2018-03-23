@@ -12,7 +12,7 @@ import {
     TabNavigator,
     StackNavigator
 } from 'react-navigation';
-
+import {Global} from './common/Global';
 import IndexTab from './components/home/home';//首页
 import OrderTab from './components/order/order';//订单
     import FirstPay from './components/order/firstPay'// 待支付
@@ -177,7 +177,7 @@ const MainView = TabNavigator({
         },
         style: {
             height: 50,
-            backgroundColor: "#fbfbfb",
+            backgroundColor: "white",
         },
         activeBackgroundColor: 'white',
         activeTintColor: '#566cb7',
@@ -191,7 +191,6 @@ const MainView = TabNavigator({
         }
     },
 });
-
 
 
 

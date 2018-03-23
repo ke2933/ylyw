@@ -348,6 +348,7 @@ export default class AttestationTwo extends Component {
                     </TouchableOpacity>
                     : null
                 }
+                {IPhoneX ? <View style={{height: 34,}}></View> : null}
             </View>
 
         );

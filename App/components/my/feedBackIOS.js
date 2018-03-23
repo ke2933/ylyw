@@ -11,6 +11,7 @@ import {
     Keyboard,
     BackHandler,
     ScrollView,
+    KeyboardAvoidingView,
 } from 'react-native';
 import {Global} from '../../common/Global';
 import Loading from '../../common/Loading';
@@ -61,7 +62,8 @@ export default class FeedBack extends Component {
     }
 
     componentWillMount() {
-       NetWork ? null : Alert.alert('网络似乎断掉了'), this.setState({isLoading: false});RouteName.push(this.props.navigation.state);
+        NetWork ? null : Alert.alert('网络似乎断掉了'), this.setState({isLoading: false});
+        RouteName.push(this.props.navigation.state);
         if (Android) {
             BackHandler.addEventListener('hardwareBackPress', () => {
                 backAndroid();
@@ -98,7 +100,13 @@ export default class FeedBack extends Component {
                          'title': '意见反馈',
                          rightBtn: false,
                      }}/>
-                <View style={{height: SCREEN_HEIGHT - 65 - this.state.keyHeight}}>
+                <KeyboardAvoidingView
+                    behavior={'padding'}
+                    style={{
+                        width: SCREEN_WIDTH,
+                        height: IPhoneX ? SCREEN_HEIGHT - 88 : SCREEN_HEIGHT - 64,
+                        justifyContent: 'flex-end',
+                    }}>
                     <ScrollView>
                         <TextInput
                             style={[styles.textareaStyle, {
@@ -123,8 +131,9 @@ export default class FeedBack extends Component {
                             keyboardType={'default'}
                         />
                         <Button text={'提交'} click={this.submit.bind(this)}/>
+                        {IPhoneX ? <View style={{height: 34,}}></View> : null}
                     </ScrollView>
-                </View>
+                </KeyboardAvoidingView>
 
                 <Toast
                     ref='toast'

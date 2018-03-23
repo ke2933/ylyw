@@ -218,6 +218,7 @@ export default class Earnings extends Component {
                             </View>
                         </View>
                     </TouchableOpacity>
+                    {IPhoneX ? <View style={{height: 34,}}></View> : null}
                 </ScrollView>
                 <TouchableOpacity
                     activeOpacity={.8}
@@ -292,7 +293,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
         textAlign: 'center',
         paddingTop: px2dp(28),
-        paddingBottom: px2dp(38),
+        paddingBottom: IPhoneX ? px2dp(72) : px2dp(38),
         fontSize: FONT_SIZE(14),
         color: '#898989',
     }
